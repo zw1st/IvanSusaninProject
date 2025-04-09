@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IvanSusaninProject_Contracts.BuisnessLogicContracts;
 
-public interface IGroupBuisnessLogicContract
+public interface IGroupBusinessLogicsContract
 {
     List<GroupDataModel> GetAllGroups(string creatorId);
 

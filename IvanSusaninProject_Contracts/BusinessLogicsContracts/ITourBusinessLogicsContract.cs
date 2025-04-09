@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IvanSusaninProject_Contracts.BuisnessLogicContracts;
 
-public interface ITourBuisnessLogicContract
+public interface ITourBusinessLogicsContract
 {
     List<TourDataModel> GetAllTours(string creatorId);
 

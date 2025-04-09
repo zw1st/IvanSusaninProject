@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IvanSusaninProject_Contracts.BuisnessLogicContracts;
 
-public interface IExecutorBuisnessLogicContract
+public interface IExecutorBusinessLogicsContract
 {
     List<ExecutorDataModel> GetAllExecutors();
 

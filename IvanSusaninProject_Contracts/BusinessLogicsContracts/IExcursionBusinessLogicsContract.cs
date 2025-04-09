@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IvanSusaninProject_Contracts.BuisnessLogicContracts;
 
-public interface IExcursionBuisnessLogicContract
+public interface IExcursionBusinessLogicsContract
 {
     List<ExcursionDataModel> GetAllExcursions(string creatorId, string? guideId);
 
