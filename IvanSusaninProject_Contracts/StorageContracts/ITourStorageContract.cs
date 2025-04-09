@@ -16,8 +16,4 @@ public interface ITourStorageContract
     TourDataModel? GetElementByName(string name);
 
     void AddElement(TourDataModel element);
-
-    void UpdateElement(TourDataModel element);
-
-    void DeleteElement(string id);
 }
