@@ -5,7 +5,7 @@ namespace IvanSusaninProject_Contracts.BusinessLogicsContracts;
 
 public interface IPlaceBusinessLogicContract
 {
-    List<PlaceDataModel> GetAllPlaces();
+    List<PlaceDataModel> GetAllPlaces(string createrId);
 
     List<PlaceDataModel> GetAllPlacesByGroup(string groupId);
 

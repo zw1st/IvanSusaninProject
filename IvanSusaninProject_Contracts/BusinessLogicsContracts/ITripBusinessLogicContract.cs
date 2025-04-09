@@ -4,7 +4,7 @@ namespace IvanSusaninProject_Contracts.BusinessLogicsContracts;
 
 public interface ITripBusinessLogicContract
 {
-    List<TripDataModel> GetAllTrips();
+    List<TripDataModel> GetAllTrips(string createrId);
 
     List<TripDataModel> GetAllTripsByPeriod(DateTime fromDate, DateTime toDate);
     

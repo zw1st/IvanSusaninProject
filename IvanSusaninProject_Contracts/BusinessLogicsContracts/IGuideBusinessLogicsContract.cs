@@ -5,7 +5,7 @@ namespace IvanSusaninProject_Contracts.BusinessLogicsContracts;
 
 public interface IGuideBusinessLogicsContract
 {
-    List<GuideDataModel> GetAllGuides();
+    List<GuideDataModel> GetAllGuides(string createrId);
 
     GuideDataModel GetGuideByData(string data);
 
