@@ -1,5 +1,5 @@
 ﻿
-namespace IvanSusaninProject_DataBase.Models;
+namespace IvanSusaninProject_Database.Models;
 
 public class Guarantor
 {

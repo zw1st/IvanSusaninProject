@@ -1,7 +1,7 @@
 ﻿
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace IvanSusaninProject_DataBase.Models
+namespace IvanSusaninProject_Database.Models
 {
     public class Trip
     {

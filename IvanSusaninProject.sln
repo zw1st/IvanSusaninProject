@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IvanSusaninProject", "IvanS
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IvanSusaninProject_Contracts", "IvanSusaninProject_Contracts\IvanSusaninProject_Contracts.csproj", "{75E25EAA-439D-40FC-818C-9DBDD50D9749}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IvanSusaninProject_DataBase", "IvanSusaninProject_DataBase\IvanSusaninProject_DataBase.csproj", "{6AD5249E-E374-4D48-B935-3B523B850964}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IvanSusaninProject_Database", "IvanSusaninProject_DataBase\IvanSusaninProject_Database.csproj", "{6AD5249E-E374-4D48-B935-3B523B850964}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

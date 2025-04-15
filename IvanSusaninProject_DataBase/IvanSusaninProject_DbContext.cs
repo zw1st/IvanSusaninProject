@@ -1,6 +1,6 @@
 ﻿
 using IvanSusaninProject_Contracts.Infrastructure;
-using IvanSusaninProject_DataBase.Models;
+using IvanSusaninProject_Database.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace IvanSusaninProject_DataBase;
