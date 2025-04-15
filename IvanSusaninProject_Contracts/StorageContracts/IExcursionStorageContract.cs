@@ -16,8 +16,4 @@ public interface IExcursionStorageContract
     ExcursionDataModel? GetElementByName(string name);
 
     void AddElement(ExcursionDataModel element);
-
-    void UpdateElement(ExcursionDataModel element);
-
-    void DeleteElement(string id);
 }
