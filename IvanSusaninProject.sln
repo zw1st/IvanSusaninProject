@@ -9,8 +9,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IvanSusaninProject_Contract
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IvanSusaninProject_DataBase", "IvanSusaninProject_Database\IvanSusaninProject_DataBase.csproj", "{07B904A9-C9F1-4F77-BB78-C8734CF43A02}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IvanSusaninProject_DataBase", "IvanSusaninProject_DataBase\IvanSusaninProject_DataBase.csproj", "{6AD5249E-E374-4D48-B935-3B523B850964}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
