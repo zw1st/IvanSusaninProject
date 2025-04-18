@@ -1,8 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
+using IvanSusaninProject_Database.Models;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IvanSusaninProject_DataBase.Models;
 
@@ -23,4 +21,7 @@ public class Place
     public Group? Group { get; set; }
 
     public Guarantor? Guarantor { get; set; }
+
+    [ForeignKey("PlaceId")]
+    public List<TripPlace>? TripPlaces { get; set; }
 }

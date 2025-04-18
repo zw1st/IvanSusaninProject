@@ -14,11 +14,7 @@ public class Tour
 
     public required string Name { get; set; }
 
-    public string? City { get;  set; }
-
-    public DateTime StartDate { get;  set; }
-
-    public DateTime EndDate { get;  set; } 
+    public HumanType HumanType { get; set; }
 
     public required string ExecutorId { get; set; }
 

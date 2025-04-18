@@ -1,0 +1,98 @@
+﻿using AutoMapper;
+using IvanSusaninProject_Contracts.DataModels;
+using IvanSusaninProject_Contracts.StorageContracts;
+using IvanSusaninProject_Database;
+using IvanSusaninProject_DataBase.Models;
+using Microsoft.EntityFrameworkCore;
+using North_Bridge_Contract.Exceptions;
+
+namespace IvanSusaninProject_DataBase.Implementations;
+
+internal class TripStorageContract : ITripStorageContract
+{
+    private readonly IvanSusaninProject_DbContext _dbContext;
+
+    private readonly Mapper _mapper;
+
+    public TripStorageContract(IvanSusaninProject_DbContext dbContext)
+    {
+        _dbContext = dbContext;
+        var config = new MapperConfiguration(cfg =>
+        {
+            cfg.CreateMap<TripGuide, TripGuideDataModel>();
+            cfg.CreateMap<TripGuideDataModel, TripGuide>();
+            cfg.CreateMap<TripPlace, TripPlaceDataModel>();
+            cfg.CreateMap<TripPlaceDataModel, TripPlace>();
+            cfg.CreateMap<Trip, TripDataModel>();
+            cfg.CreateMap<TripDataModel, Trip>();
+        });
+        _mapper = new Mapper(config);
+    }
+
+    public void AddElement(TripDataModel tripDataModel)
+    {
+        try
+        {
+            _dbContext.Trips.Add(_mapper.Map<Trip>(tripDataModel));
+            _dbContext.SaveChanges();
+        }
+        catch (Exception ex)
+        {
+            _dbContext.ChangeTracker.Clear();
+            throw new StorageException(ex);
+        }
+    }
+
+    public TripDataModel? GetElementById(string id)
+    {
+        try
+        {
+            return _mapper.Map<TripDataModel>(GetTripById(id));
+        }
+        catch (Exception ex)
+        {
+            _dbContext.ChangeTracker.Clear();
+            throw new StorageException(ex);
+        }
+    }
+
+    public List<TripDataModel> GetList(string guarantorId, DateTime? tripDate = null)
+    {
+        try
+        {
+            var query = _dbContext.Trips.Include(x => x.TripPlaces).Include(x => x.TripGuides).Where(x => x.GuaranderId == guarantorId).AsQueryable();
+            if (tripDate is not null)
+            {
+                query = query.Where(x => x.TripDate == tripDate);
+            }
+            return [.. query.Select(x => _mapper.Map<TripDataModel>(x))];
+        }
+        catch (Exception ex)
+        {
+            _dbContext.ChangeTracker.Clear();
+            throw new StorageException(ex);
+        }
+    }
+
+    public void UpdElement(TripDataModel tripDataModel)
+    {
+        try
+        {
+            var element = GetTripById(tripDataModel.Id) ?? throw new ElementNotFoundException(tripDataModel.Id);
+            _dbContext.Trips.Update(_mapper.Map(tripDataModel, element));
+            _dbContext.SaveChanges();
+        }
+        catch (ElementNotFoundException)
+        {
+            _dbContext.ChangeTracker.Clear();
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _dbContext.ChangeTracker.Clear();
+            throw new StorageException(ex);
+        }
+    }
+
+    private Trip? GetTripById(string id) => _dbContext.Trips.FirstOrDefault(x => x.Id == id);
+}
