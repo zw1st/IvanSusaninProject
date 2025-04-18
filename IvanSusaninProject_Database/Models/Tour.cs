@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace IvanSusaninProject_Database.Models;
 
-internal class Tour
+public class Tour
 {
     public required string Id { get; set; } = Guid.NewGuid().ToString();
 

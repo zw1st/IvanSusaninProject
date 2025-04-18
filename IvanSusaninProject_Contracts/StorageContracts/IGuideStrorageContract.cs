@@ -5,7 +5,7 @@ namespace IvanSusaninProject_Contracts.StorageContracts;
 
 public interface IGuideStrorageContract
 {
-    List<GuideDataModel> GetList();
+    List<GuideDataModel> GetList(string guarantorId);
 
     GuideDataModel? GetElementById(string id);
 

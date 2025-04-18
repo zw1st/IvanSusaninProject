@@ -6,7 +6,7 @@ namespace IvanSusaninProject_Contracts.StorageContracts;
 
 public interface IPlaceStorageContract
 {
-    List<PlaceDataModel> GetList(string? groupId = null);
+    List<PlaceDataModel> GetList(string guarantorId, string? groupId = null);
 
     PlaceDataModel? GetElementById(string id);
 

@@ -21,5 +21,8 @@ namespace IvanSusaninProject_DataBase.Models
 
         [ForeignKey("TripId")]
         public List<TripPlace>? TripPlaces { get; set; }
+
+        [ForeignKey("TripId")]
+        public List<TripGuide>? TripGuides { get; set; }
     }
 }
