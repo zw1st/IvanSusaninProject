@@ -1,10 +1,9 @@
 ﻿using AutoMapper;
 using IvanSusaninProject_Contracts.DataModels;
+using IvanSusaninProject_Contracts.Exceptions;
 using IvanSusaninProject_Contracts.StorageContracts;
 using IvanSusaninProject_Database;
 using IvanSusaninProject_DataBase.Models;
-using North_Bridge_Contract.Exceptions;
-using North_Bridge_Contract.Extentions;
 
 namespace IvanSusaninProject_DataBase.Implementations;
 

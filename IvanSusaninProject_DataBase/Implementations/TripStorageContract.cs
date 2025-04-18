@@ -1,10 +1,10 @@
 ﻿using AutoMapper;
 using IvanSusaninProject_Contracts.DataModels;
+using IvanSusaninProject_Contracts.Exceptions;
 using IvanSusaninProject_Contracts.StorageContracts;
 using IvanSusaninProject_Database;
 using IvanSusaninProject_DataBase.Models;
 using Microsoft.EntityFrameworkCore;
-using North_Bridge_Contract.Exceptions;
 
 namespace IvanSusaninProject_DataBase.Implementations;
 
