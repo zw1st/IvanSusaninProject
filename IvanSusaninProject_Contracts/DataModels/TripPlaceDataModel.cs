@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IvanSusaninProject_Contracts.DataModels;
 
-public class TripPlaceDaraModel(string placeId, string tripId)
+public class TripPlaceDataModel(string placeId, string tripId)
 {
     public string PlaceId { get; private set; } = placeId;
 
