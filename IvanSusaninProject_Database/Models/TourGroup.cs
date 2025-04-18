@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IvanSusaninProject_Database.Models;
 
-internal class TourGroup
+public class TourGroup
 {
     public required string TourId { get; set; }
 

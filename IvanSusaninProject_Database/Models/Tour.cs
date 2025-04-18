@@ -8,13 +8,17 @@ using System.Threading.Tasks;
 
 namespace IvanSusaninProject_Database.Models;
 
-internal class Tour
+public class Tour
 {
     public required string Id { get; set; } = Guid.NewGuid().ToString();
 
     public required string Name { get; set; }
 
-    public HumanType HumanType { get; set; }
+    public string? City { get;  set; }
+
+    public DateTime StartDate { get;  set; }
+
+    public DateTime EndDate { get;  set; } 
 
     public required string ExecutorId { get; set; }
 

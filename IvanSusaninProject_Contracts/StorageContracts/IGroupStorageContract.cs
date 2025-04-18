@@ -9,7 +9,7 @@ namespace IvanSusaninProject_Contracts.StorageContracts;
 
 public interface IGroupStorageContract
 {
-    List<GroupDataModel> GetList();
+    List<GroupDataModel> GetList(string? executorId);
 
     GroupDataModel? GetElementById(string id);
 

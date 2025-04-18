@@ -34,7 +34,7 @@ internal class IvanSusaninProject_DbContext(IConfigurationDatabase configuration
         modelBuilder.Entity<TourGroup>().HasIndex(x => new { x.TourId, x.GroupId });
     }
 
-    public DbSet<Excursion> SExcursions { get; set; }
+    public DbSet<Excursion> Excursions { get; set; }
     public DbSet<Executor> Executors { get; set; }
     public DbSet<Group> Groups { get; set; }
     public DbSet<Tour> Tours { get; set; }

@@ -10,8 +10,7 @@ public class ExcursionDataModel(string id, string name, DateTime exursionDate, s
 {
     public string Id { get; private set; } = id;
     public string Name { get; private set; } = name;
-    public DateTime ExursionDate { get; } = exursionDate;
-    public DateTime ExcursionDate { get; private set; }
+    public DateTime ExcursionDate { get; private set; } = exursionDate;
     public string GuideId {  get; private set; } = guideId;
     public string ExecutorId { get; private set; } = ExecutorId;
 }

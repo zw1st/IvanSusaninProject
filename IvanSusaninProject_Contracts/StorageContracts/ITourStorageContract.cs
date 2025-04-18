@@ -9,7 +9,7 @@ namespace IvanSusaninProject_Contracts.StorageContracts;
 
 public interface ITourStorageContract
 {
-    List<TourDataModel> GetList(DateTime? dateTime);
+    List<TourDataModel> GetList(string? executorId, DateTime? dateTime);
 
     TourDataModel? GetElementById(string id);
 
