@@ -1,5 +1,4 @@
-﻿
-using IvanSusaninProject_Database.Models;
+﻿using IvanSusaninProject_Database.Models;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace IvanSusaninProject_DataBase.Models;

@@ -1,13 +1,12 @@
-﻿
-using IvanSusaninProject_Contracts.DataModels;
+﻿using IvanSusaninProject_Contracts.DataModels;
 
 namespace IvanSusaninProject_Contracts.StorageContracts;
 
 public interface ITripStorageContract
 {
-    List<TripDataModel> GetList(string guarantorId, DateTime? tripDate = null);
+    List<TripDataModel> GetList(string creatorId, DateTime? tripDate = null);
 
-    TripDataModel? GetElementById(string id);
+    TripDataModel? GetElementById(string creatorId, string id);
 
     void AddElement(TripDataModel tripDataModel);
 

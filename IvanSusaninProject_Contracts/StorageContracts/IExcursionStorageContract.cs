@@ -9,11 +9,11 @@ namespace IvanSusaninProject_Contracts.StorageContracts;
 
 public interface IExcursionStorageContract
 {
-    List<ExcursionDataModel> GetList(DateTime? dateTime, string? guideId);
+    List<ExcursionDataModel> GetList(string creatorId, DateTime? dateTime, string? guideId);
 
-    ExcursionDataModel? GetElementById(string id);
+    ExcursionDataModel? GetElementById(string creatorId, string id);
 
-    ExcursionDataModel? GetElementByName(string name);
+    ExcursionDataModel? GetElementByName(string creatorId, string name);
 
     void AddElement(ExcursionDataModel element);
 }

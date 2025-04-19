@@ -6,7 +6,6 @@ using IvanSusaninProject_Contracts.StorageContracts;
 using IvanSusaninProject_Database;
 using IvanSusaninProject_DataBase.Models;
 using Microsoft.EntityFrameworkCore;
-using System.Xml.Linq;
 
 namespace IvanSusaninProject_DataBase.Implementations;
 
@@ -31,6 +30,7 @@ internal class GuideStrorageContract : IGuideStrorageContract
     {
         try
         {
+
             _dbContext.Guides.Add(_mapper.Map<Guide>(guideDataModel));
             _dbContext.SaveChanges();
         }
@@ -41,11 +41,11 @@ internal class GuideStrorageContract : IGuideStrorageContract
         }
     }
 
-    public void DelElement(string id)
+    public void DelElement(string creatorId, string id)
     {
         try
         {
-            var element = GetGuideById(id) ?? throw new ElementNotFoundException(id);
+            var element = GetGuideById(id, creatorId) ?? throw new ElementNotFoundException(id);
             _dbContext.Guides.Remove(element);
             _dbContext.SaveChanges();
         }
@@ -61,11 +61,11 @@ internal class GuideStrorageContract : IGuideStrorageContract
         }
     }
 
-    public GuideDataModel? GetElementByFIO(string fio)
+    public GuideDataModel? GetElementByFIO(string creatorId, string fio)
     {
         try
         {
-            return _mapper.Map<GuideDataModel>(GetGuideByFIO(fio));
+            return _mapper.Map<GuideDataModel>(GetGuideByFIO(fio, creatorId));
         }
         catch (Exception ex)
         {
@@ -74,11 +74,11 @@ internal class GuideStrorageContract : IGuideStrorageContract
         }
     }
 
-    public GuideDataModel? GetElementById(string id)
+    public GuideDataModel? GetElementById(string creatorId, string id)
     {
         try
         {
-            return _mapper.Map<GuideDataModel>(GetGuideById(id));
+            return _mapper.Map<GuideDataModel>(GetGuideById(id, creatorId));
         }
         catch (Exception ex)
         {
@@ -105,7 +105,7 @@ internal class GuideStrorageContract : IGuideStrorageContract
     {
         try
         {
-            var element = GetGuideById(guideDataModel.Id) ?? throw new ElementNotFoundException(guideDataModel.Id);
+            var element = GetGuideById(guideDataModel.Id, guideDataModel.GuaranderId) ?? throw new ElementNotFoundException(guideDataModel.Id);
             _dbContext.Guides.Update(_mapper.Map(guideDataModel, element));
             _dbContext.SaveChanges();
         }
@@ -121,7 +121,7 @@ internal class GuideStrorageContract : IGuideStrorageContract
         }
     }
 
-    private Guide? GetGuideById(string id) => _dbContext.Guides.FirstOrDefault(x => x.Id == id);
+    private Guide? GetGuideById(string id, string creatorId) => _dbContext.Guides.Where(x=> x.GuaranderId == creatorId).FirstOrDefault(x => x.Id == id);
 
-    private Guide? GetGuideByFIO(string fio) => _dbContext.Guides.FirstOrDefault(x => x.Fio == fio);
+    private Guide? GetGuideByFIO(string fio, string creatorId) => _dbContext.Guides.Where(x => x.GuaranderId == creatorId).FirstOrDefault(x => x.Fio == fio);
 }

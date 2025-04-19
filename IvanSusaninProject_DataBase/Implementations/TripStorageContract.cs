@@ -43,11 +43,11 @@ internal class TripStorageContract : ITripStorageContract
         }
     }
 
-    public TripDataModel? GetElementById(string id)
+    public TripDataModel? GetElementById(string creatorId, string id)
     {
         try
         {
-            return _mapper.Map<TripDataModel>(GetTripById(id));
+            return _mapper.Map<TripDataModel>(GetTripById(id, creatorId));
         }
         catch (Exception ex)
         {
@@ -78,7 +78,7 @@ internal class TripStorageContract : ITripStorageContract
     {
         try
         {
-            var element = GetTripById(tripDataModel.Id) ?? throw new ElementNotFoundException(tripDataModel.Id);
+            var element = GetTripById(tripDataModel.Id, tripDataModel.GuaranderId) ?? throw new ElementNotFoundException(tripDataModel.Id);
             _dbContext.Trips.Update(_mapper.Map(tripDataModel, element));
             _dbContext.SaveChanges();
         }
@@ -94,5 +94,5 @@ internal class TripStorageContract : ITripStorageContract
         }
     }
 
-    private Trip? GetTripById(string id) => _dbContext.Trips.FirstOrDefault(x => x.Id == id);
+    private Trip? GetTripById(string id, string creatorId) => _dbContext.Trips.Where(x => x.GuaranderId == creatorId).FirstOrDefault(x => x.Id == id);
 }

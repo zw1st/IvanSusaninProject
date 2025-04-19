@@ -1,23 +1,18 @@
 ﻿using IvanSusaninProject_Contracts.DataModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace IvanSusaninProject_Contracts.BuisnessLogicContracts;
+namespace IvanSusaninProject_Contracts.BusinessLogicsContracts;
 
 public interface IGroupBusinessLogicsContract
 {
     List<GroupDataModel> GetAllGroups(string creatorId);
 
-    GroupDataModel GetGroupById(string id);
+    GroupDataModel GetGroupById(string creatorId, string id);
 
     void InsertGroup(GroupDataModel groupDataModel);
 
     void UpdateGroup(GroupDataModel groupDataModel);
 
-    void DeleteGroup(string id);
+    void DeleteGroup(string creatorId, string id);
 
     void LinkingGroupWithPlace(string placeId);
 }

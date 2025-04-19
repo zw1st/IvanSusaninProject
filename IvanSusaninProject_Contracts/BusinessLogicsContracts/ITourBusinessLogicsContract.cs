@@ -1,17 +1,12 @@
 ﻿using IvanSusaninProject_Contracts.DataModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace IvanSusaninProject_Contracts.BuisnessLogicContracts;
+namespace IvanSusaninProject_Contracts.BusinessLogicsContracts;
 
 public interface ITourBusinessLogicsContract
 {
     List<TourDataModel> GetAllTours(string creatorId);
 
-    TourDataModel GetTourById(string id);
+    TourDataModel GetTourById(string createrId, string id);
 
     void InsertTour(TourDataModel tourDataModel);
 }

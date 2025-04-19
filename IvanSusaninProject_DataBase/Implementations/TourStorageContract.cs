@@ -5,11 +5,6 @@ using IvanSusaninProject_Contracts.StorageContracts;
 using IvanSusaninProject_Database;
 using IvanSusaninProject_Database.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IvanSusaninProject_DataBase.Implementations;
 
@@ -50,11 +45,11 @@ internal class TourStorageContract : ITourStorageContract
         }
     }
 
-    public TourDataModel? GetElementById(string id)
+    public TourDataModel? GetElementById(string creatorId, string id)
     {
         try
         {
-            return _mapper.Map<TourDataModel>(GetTourById(id));
+            return _mapper.Map<TourDataModel>(GetTourById(id, creatorId));
         }
         catch (Exception ex)
         {
@@ -63,11 +58,11 @@ internal class TourStorageContract : ITourStorageContract
         }
     }
 
-    public TourDataModel? GetElementByName(string name)
+    public TourDataModel? GetElementByName(string creatorId, string name)
     {
         try
         {
-            return _mapper.Map<TourDataModel>(_dbContext.Tours.FirstOrDefault(x => x.Name == name));
+            return _mapper.Map<TourDataModel>(_dbContext.Tours.Where(x => x.ExecutorId == creatorId).FirstOrDefault(x => x.Name == name));
         }
         catch (Exception ex)
         {
@@ -98,6 +93,6 @@ internal class TourStorageContract : ITourStorageContract
         }
     }
 
-    private Tour? GetTourById(string id) => _dbContext.Tours.FirstOrDefault(x => x.Id == id);
+    private Tour? GetTourById(string id, string creatorId) => _dbContext.Tours.Where(x => x.ExecutorId == creatorId).FirstOrDefault(x => x.Id == id);
 
 }

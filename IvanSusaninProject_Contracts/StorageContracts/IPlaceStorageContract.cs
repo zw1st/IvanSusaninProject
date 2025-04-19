@@ -1,20 +1,18 @@
-﻿
-using IvanSusaninProject_Contracts.DataModels;
-using System.Text.RegularExpressions;
+﻿using IvanSusaninProject_Contracts.DataModels;
 
 namespace IvanSusaninProject_Contracts.StorageContracts;
 
 public interface IPlaceStorageContract
 {
-    List<PlaceDataModel> GetList(string guarantorId, string? groupId = null);
+    List<PlaceDataModel> GetList(string creatorId, string? groupId = null);
 
-    PlaceDataModel? GetElementById(string id);
+    PlaceDataModel? GetElementById(string creatorId, string id);
 
-    PlaceDataModel? GetElementByName(string name);
+    PlaceDataModel? GetElementByName(string creatorId, string name);
 
     void AddElement(PlaceDataModel placeDataModel);
 
     void UpdElement(PlaceDataModel placeDataModel);
 
-    void DelElement(string id);
+    void DelElement(string creatorId, string id);
 }

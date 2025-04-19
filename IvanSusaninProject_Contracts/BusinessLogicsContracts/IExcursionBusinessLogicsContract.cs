@@ -1,17 +1,12 @@
 ﻿using IvanSusaninProject_Contracts.DataModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace IvanSusaninProject_Contracts.BuisnessLogicContracts;
+namespace IvanSusaninProject_Contracts.BusinessLogicsContracts;
 
 public interface IExcursionBusinessLogicsContract
 {
     List<ExcursionDataModel> GetAllExcursions(string creatorId, string? guideId);
 
-    ExcursionDataModel GetExcursionByData(string data);
+    ExcursionDataModel GetExcursionByData(string creatorId, string data);
 
     void InsertExcursion(ExcursionDataModel excursionDataModel);
 }

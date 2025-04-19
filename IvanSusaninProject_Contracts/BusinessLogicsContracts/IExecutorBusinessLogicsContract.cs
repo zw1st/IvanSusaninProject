@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace IvanSusaninProject_Contracts.BuisnessLogicContracts;
+namespace IvanSusaninProject_Contracts.BusinessLogicsContracts;
 
 public interface IExecutorBusinessLogicsContract
 {

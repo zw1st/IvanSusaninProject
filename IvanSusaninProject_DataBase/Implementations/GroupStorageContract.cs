@@ -5,12 +5,6 @@ using IvanSusaninProject_Contracts.StorageContracts;
 using IvanSusaninProject_Database;
 using IvanSusaninProject_Database.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IvanSusaninProject_DataBase.Implementations;
 
@@ -52,11 +46,11 @@ internal class GroupStorageContract : IGroupStorageContract
         }
     }
 
-    public GroupDataModel? GetElementById(string id)
+    public GroupDataModel? GetElementById(string creatorId, string id)
     {
         try
         {
-            return _mapper.Map<GroupDataModel>(GetGroupById(id));
+            return _mapper.Map<GroupDataModel>(GetGroupById(id, creatorId));
         }
         catch (Exception ex)
         {
@@ -69,7 +63,7 @@ internal class GroupStorageContract : IGroupStorageContract
     {
         try
         {
-            var element = GetGroupById(componentDataModel.Id) ?? throw new ElementNotFoundException(componentDataModel.Id);
+            var element = GetGroupById(componentDataModel.Id, componentDataModel.ExecutorId) ?? throw new ElementNotFoundException(componentDataModel.Id);
             _dbContext.Groups.Update(_mapper.Map(componentDataModel, element));
             _dbContext.SaveChanges();
         }
@@ -85,11 +79,11 @@ internal class GroupStorageContract : IGroupStorageContract
         }
     }
 
-    public void DeleteElement(string id)
+    public void DeleteElement(string creatorId, string id)
     {
         try
         {
-            var element = GetGroupById(id) ?? throw new ElementNotFoundException(id);
+            var element = GetGroupById(id, creatorId) ?? throw new ElementNotFoundException(id);
             _dbContext.Groups.Remove(element);
             _dbContext.SaveChanges();
         }
@@ -105,7 +99,7 @@ internal class GroupStorageContract : IGroupStorageContract
         }
     }
 
-    private Group? GetGroupById(string id) => _dbContext.Groups.FirstOrDefault(x => x.Id == id);
+    private Group? GetGroupById(string id, string creatorId) => _dbContext.Groups.Where(x => x.ExecutorId == creatorId).FirstOrDefault(x => x.Id == id);
 
     public List<GroupDataModel> GetList(string? executorId)
     {

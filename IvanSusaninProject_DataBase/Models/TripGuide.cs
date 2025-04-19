@@ -1,5 +1,4 @@
-﻿
-namespace IvanSusaninProject_DataBase.Models;
+﻿namespace IvanSusaninProject_DataBase.Models;
 
 public class TripGuide
 {

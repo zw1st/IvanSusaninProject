@@ -1,5 +1,4 @@
-﻿
-using IvanSusaninProject_Contracts.DataModels;
+﻿using IvanSusaninProject_Contracts.DataModels;
 
 namespace IvanSusaninProject_Contracts.BusinessLogicsContracts;
 

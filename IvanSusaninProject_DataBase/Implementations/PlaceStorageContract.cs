@@ -39,11 +39,11 @@ namespace IvanSusaninProject_DataBase.Implementations
             }
         }
 
-        public void DelElement(string id)
+        public void DelElement(string creatorId, string id)
         {
             try
             {
-                var element = GetPlaceById(id) ?? throw new ElementNotFoundException(id);
+                var element = GetPlaceById(id, creatorId) ?? throw new ElementNotFoundException(id);
                 _dbContext.Places.Remove(element);
                 _dbContext.SaveChanges();
             }
@@ -59,11 +59,11 @@ namespace IvanSusaninProject_DataBase.Implementations
             }
         }
 
-        public PlaceDataModel? GetElementById(string id)
+        public PlaceDataModel? GetElementById(string creatorId, string id)
         {
             try
             {
-                return _mapper.Map<PlaceDataModel>(GetPlaceById(id));
+                return _mapper.Map<PlaceDataModel>(GetPlaceById(id, creatorId));
             }
             catch (Exception ex)
             {
@@ -72,11 +72,11 @@ namespace IvanSusaninProject_DataBase.Implementations
             }
         }
 
-        public PlaceDataModel? GetElementByName(string name)
+        public PlaceDataModel? GetElementByName(string creatorId, string name)
         {
             try
             {
-                return _mapper.Map<PlaceDataModel>(GetPlaceByName(name));
+                return _mapper.Map<PlaceDataModel>(GetPlaceByName(name, creatorId));
             }
             catch (Exception ex)
             {
@@ -107,7 +107,7 @@ namespace IvanSusaninProject_DataBase.Implementations
         {
             try
             {
-                var element = GetPlaceById(placeDataModel.Id) ?? throw new
+                var element = GetPlaceById(placeDataModel.Id, placeDataModel.GuaranderId) ?? throw new
                 ElementNotFoundException(placeDataModel.Id);
                 _dbContext.Places.Update(_mapper.Map(placeDataModel, element));
                 _dbContext.SaveChanges();
@@ -124,8 +124,8 @@ namespace IvanSusaninProject_DataBase.Implementations
             }
         }
 
-        private Place? GetPlaceById(string id) => _dbContext.Places.FirstOrDefault(x => x.Id == id);
+        private Place? GetPlaceById(string id, string creatorId) => _dbContext.Places.Where(x => x.GuaranderId == creatorId).FirstOrDefault(x => x.Id == id);
 
-        private Place? GetPlaceByName(string name) => _dbContext.Places.FirstOrDefault(x => x.Name == name);
+        private Place? GetPlaceByName(string name, string creatorId) => _dbContext.Places.Where(x => x.GuaranderId == creatorId).FirstOrDefault(x => x.Name == name);
     }
 }

@@ -5,11 +5,6 @@ using IvanSusaninProject_Contracts.StorageContracts;
 using IvanSusaninProject_Database;
 using IvanSusaninProject_Database.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IvanSusaninProject_DataBase.Implementations;
 
@@ -51,11 +46,11 @@ internal class ExcursionStorageContract : IExcursionStorageContract
         }
     }
 
-    public ExcursionDataModel? GetElementById(string id)
+    public ExcursionDataModel? GetElementById(string creatorId, string id)
     {
         try
         {
-            return _mapper.Map<ExcursionDataModel>(GetExcursionById(id));
+            return _mapper.Map<ExcursionDataModel>(GetExcursionById(id, creatorId));
         }
         catch (Exception ex)
         {
@@ -64,11 +59,11 @@ internal class ExcursionStorageContract : IExcursionStorageContract
         }
     }
 
-    public ExcursionDataModel? GetElementByName(string name)
+    public ExcursionDataModel? GetElementByName(string creatorId, string name)
     {
         try
         {
-            return _mapper.Map<ExcursionDataModel>(GetExcursionById(name));
+            return _mapper.Map<ExcursionDataModel>(GetExcursionByName(name, creatorId));
         }
         catch (Exception ex)
         {
@@ -77,15 +72,12 @@ internal class ExcursionStorageContract : IExcursionStorageContract
         }
     }
 
-    public List<ExcursionDataModel> GetList(string? executorId, DateTime? dateTime, string? guideId)
+    public List<ExcursionDataModel> GetList(string executorId, DateTime? dateTime, string? guideId)
     {
         try
         {
-            var query = _dbContext.Excursions.Include(x => x.TourExcursions).AsQueryable();
-            if (executorId is not null)
-            {
-                query = query.Where(x => x.ExecutorId == executorId);
-            }
+            var query = _dbContext.Excursions.Where(x => x.ExecutorId == executorId).Include(x => x.TourExcursions).AsQueryable();
+            
             if (guideId is not null)
             {
                 query = query.Where(x => x.GuideId == guideId);
@@ -103,6 +95,7 @@ internal class ExcursionStorageContract : IExcursionStorageContract
         }
     }
 
-    private Excursion? GetExcursionById(string id) => _dbContext.Excursions.FirstOrDefault(x => x.Id == id);
+    private Excursion? GetExcursionById(string id, string creatorId) => _dbContext.Excursions.Where(x => x.ExecutorId == creatorId).FirstOrDefault(x => x.Id == id);
 
+    private Excursion? GetExcursionByName(string name, string creatorId) => _dbContext.Excursions.Where(x => x.ExecutorId == creatorId).FirstOrDefault(x => x.Name == name);
 }

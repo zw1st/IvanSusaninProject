@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "IvanSusaninProject_Contract
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IvanSusaninProject_DataBase", "IvanSusaninProject_Database\IvanSusaninProject_DataBase.csproj", "{07B904A9-C9F1-4F77-BB78-C8734CF43A02}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IvanSusaninProject_BusinessLogic", "IvanSusaninProject_BusinessLogic\IvanSusaninProject_BusinessLogic.csproj", "{FC534387-55D1-4E4D-891C-F61BB3316809}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{07B904A9-C9F1-4F77-BB78-C8734CF43A02}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{07B904A9-C9F1-4F77-BB78-C8734CF43A02}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{07B904A9-C9F1-4F77-BB78-C8734CF43A02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC534387-55D1-4E4D-891C-F61BB3316809}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC534387-55D1-4E4D-891C-F61BB3316809}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC534387-55D1-4E4D-891C-F61BB3316809}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC534387-55D1-4E4D-891C-F61BB3316809}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
