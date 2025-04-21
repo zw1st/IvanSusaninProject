@@ -56,7 +56,7 @@ internal class TripStorageContract : ITripStorageContract
         }
     }
 
-    public List<TripDataModel> GetList(string guarantorId, DateTime? tripDate = null)
+    public List<TripDataModel> GetList(string guarantorId,DateTime? fromDate = null, DateTime? toDate = null, DateTime? tripDate = null)
     {
         try
         {
@@ -64,6 +64,10 @@ internal class TripStorageContract : ITripStorageContract
             if (tripDate is not null)
             {
                 query = query.Where(x => x.TripDate == tripDate);
+            }
+            if (fromDate is not null && toDate is not null)
+            {
+                query = query.Where(x => x.TripDate >= fromDate && x.TripDate <= toDate);
             }
             return [.. query.Select(x => _mapper.Map<TripDataModel>(x))];
         }
@@ -73,7 +77,7 @@ internal class TripStorageContract : ITripStorageContract
             throw new StorageException(ex);
         }
     }
-
+    
     public void UpdElement(TripDataModel tripDataModel)
     {
         try

@@ -4,13 +4,13 @@ namespace IvanSusaninProject_Contracts.BusinessLogicsContracts;
 
 public interface ITripBusinessLogicContract
 {
-    List<TripDataModel> GetAllTrips(string createrId);
+    List<TripDataModel> GetAllTrips(string creatorId);
 
-    List<TripDataModel> GetAllTripsByPeriod(string createrId, DateTime fromDate, DateTime toDate);
+    List<TripDataModel> GetAllTripsByPeriod(string creatorId, DateTime fromDate, DateTime toDate);
     
-    List<TripDataModel> GetAllTripsByDate(string createrId, DateTime tripDate);
+    List<TripDataModel> GetAllTripsByDate(string creatorId, DateTime tripDate);
 
-    TripDataModel GetTripByData(string createrId, string data);
+    TripDataModel GetTripById(string creatorId, string id);
 
     void InsertTrip(TripDataModel model);
 

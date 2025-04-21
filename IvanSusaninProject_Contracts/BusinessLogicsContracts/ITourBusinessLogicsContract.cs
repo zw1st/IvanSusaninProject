@@ -6,7 +6,7 @@ public interface ITourBusinessLogicsContract
 {
     List<TourDataModel> GetAllTours(string creatorId);
 
-    TourDataModel GetTourById(string createrId, string id);
+    TourDataModel GetTourById(string creatorId, string id);
 
     void InsertTour(TourDataModel tourDataModel);
 }

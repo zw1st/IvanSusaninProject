@@ -4,7 +4,7 @@ namespace IvanSusaninProject_Contracts.StorageContracts;
 
 public interface ITripStorageContract
 {
-    List<TripDataModel> GetList(string creatorId, DateTime? tripDate = null);
+    List<TripDataModel> GetList(string creatorId, DateTime? fromDate = null, DateTime? toDate = null, DateTime ? tripDate = null);
 
     TripDataModel? GetElementById(string creatorId, string id);
 

@@ -4,15 +4,15 @@ namespace IvanSusaninProject_Contracts.BusinessLogicsContracts;
 
 public interface IPlaceBusinessLogicContract
 {
-    List<PlaceDataModel> GetAllPlaces(string createrId);
+    List<PlaceDataModel> GetAllPlaces(string creatorId);
 
-    List<PlaceDataModel> GetAllPlacesByGroup(string createrId, string groupId);
+    List<PlaceDataModel> GetAllPlacesByGroup(string creatorId, string groupId);
 
-    PlaceDataModel GetPlaceByData(string createrId, string data);
+    PlaceDataModel GetPlaceByData(string creatorId, string data);
 
     void InsertPlace(PlaceDataModel model);
 
     void UpdatePlace(PlaceDataModel model);
 
-    void DeletePlace(string createrId, string id);
+    void DeletePlace(string creatorId, string id);
 }
