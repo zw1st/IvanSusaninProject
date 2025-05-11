@@ -13,7 +13,7 @@ using System.Threading.Tasks;
 
 namespace IvanSusaninProject_DataBase.Implementations;
 
-internal class ExecutorStorageContract : IExecutorStorageContract
+public class ExecutorStorageContract : IExecutorStorageContract
 {
     private readonly IvanSusaninProject_DbContext _dbContext;
     private readonly Mapper _mapper;

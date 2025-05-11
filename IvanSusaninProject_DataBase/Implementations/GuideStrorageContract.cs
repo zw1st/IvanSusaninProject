@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IvanSusaninProject_DataBase.Implementations;
 
-internal class GuideStrorageContract : IGuideStrorageContract
+public class GuideStrorageContract : IGuideStrorageContract
 {
     private readonly IvanSusaninProject_DbContext _dbContext;
 

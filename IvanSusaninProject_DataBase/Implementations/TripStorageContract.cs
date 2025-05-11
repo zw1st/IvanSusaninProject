@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IvanSusaninProject_DataBase.Implementations;
 
-internal class TripStorageContract : ITripStorageContract
+public class TripStorageContract : ITripStorageContract
 {
     private readonly IvanSusaninProject_DbContext _dbContext;
 
