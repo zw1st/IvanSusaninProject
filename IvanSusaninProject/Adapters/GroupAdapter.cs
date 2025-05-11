@@ -42,9 +42,9 @@ public class GroupAdapter : IGroupAdapter
             _logger.LogError(ex, "ArgumentNullException");
             return GroupOperationResponse.BadRequest("Data is empty");
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
-            _logger.LogError(ex, "ValidationException");
+            _logger.LogError(ex, "MyMyValidationException");
             return GroupOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message}");
         }
         catch (ElementNotFoundException ex)
@@ -133,9 +133,9 @@ public class GroupAdapter : IGroupAdapter
             _logger.LogError(ex, "ArgumentNullException");
             return GroupOperationResponse.BadRequest("Data is empty");
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
-            _logger.LogError(ex, "ValidationException");
+            _logger.LogError(ex, "MyValidationException");
             return GroupOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message}");
         }
         catch (ElementNotFoundException ex)
@@ -172,9 +172,9 @@ public class GroupAdapter : IGroupAdapter
             _logger.LogError(ex, "ArgumentNullException");
             return GroupOperationResponse.BadRequest("Data is empty");
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
-            _logger.LogError(ex, "ValidationException");
+            _logger.LogError(ex, "MyValidationException");
             return GroupOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message}");
         }
         catch (ElementExistsException ex)
@@ -206,9 +206,9 @@ public class GroupAdapter : IGroupAdapter
             _logger.LogError(ex, "ArgumentNullException");
             return GroupOperationResponse.BadRequest("Id is empty");
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
-            _logger.LogError(ex, "ValidationException");
+            _logger.LogError(ex, "MyValidationException");
             return GroupOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message}");
         }
         catch (ElementNotFoundException ex)

@@ -95,9 +95,9 @@ public class GuarantorAdapter : IGuarantorAdapter
             _logger.LogError(ex, "ArgumentNullException");
             return GuarantorOperationResponse.BadRequest("Data is empty");
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
-            _logger.LogError(ex, "ValidationException");
+            _logger.LogError(ex, "MyValidationException");
             return GuarantorOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message} ");
         }
         catch (ElementExistsException ex)

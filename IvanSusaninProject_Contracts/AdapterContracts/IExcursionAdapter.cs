@@ -11,7 +11,7 @@ namespace IvanSusaninProject_Contracts.AdapterContracts;
 
 public interface IExcursionAdapter
 {
-    ExcursionOperationResponse GetList(string creatorId);
+    ExcursionOperationResponse GetList(string creatorId, DateTime dateTime, string? guideId);
 
     ExcursionOperationResponse GetElement(string creatorId, string data);
 

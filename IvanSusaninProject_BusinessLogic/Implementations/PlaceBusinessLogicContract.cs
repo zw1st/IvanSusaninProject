@@ -23,7 +23,7 @@ public class PlaceBusinessLogicContract(IPlaceStorageContract placeStorageContra
         }
         if (!id.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyValidationException("Id is not a unique identifier");
         }
         if (creatorId.IsEmpty())
         {
@@ -31,7 +31,7 @@ public class PlaceBusinessLogicContract(IPlaceStorageContract placeStorageContra
         }
         if (!creatorId.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyValidationException("Id is not a unique identifier");
         }
         _placeStorageContract.DelElement(creatorId, id);
     }
@@ -45,7 +45,7 @@ public class PlaceBusinessLogicContract(IPlaceStorageContract placeStorageContra
         }
         if (!creatorId.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyValidationException("Id is not a unique identifier");
         }
         return _placeStorageContract.GetList(creatorId) ?? throw new NullListException();
     }
@@ -59,7 +59,7 @@ public class PlaceBusinessLogicContract(IPlaceStorageContract placeStorageContra
         }
         if (!creatorId.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyValidationException("Id is not a unique identifier");
         }
         if (groupId.IsEmpty())
         {
@@ -67,7 +67,7 @@ public class PlaceBusinessLogicContract(IPlaceStorageContract placeStorageContra
         }
         if (!groupId.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyValidationException("Id is not a unique identifier");
         }
         return _placeStorageContract.GetList(creatorId, groupId) ?? throw new NullListException();
     }
@@ -81,7 +81,7 @@ public class PlaceBusinessLogicContract(IPlaceStorageContract placeStorageContra
         }
         if (!data.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyValidationException("Id is not a unique identifier");
         }
         if (creatorId.IsEmpty())
         {
@@ -89,7 +89,7 @@ public class PlaceBusinessLogicContract(IPlaceStorageContract placeStorageContra
         }
         if (!creatorId.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyValidationException("Id is not a unique identifier");
         }
         return _placeStorageContract.GetElementById(creatorId, data) ?? throw new ElementNotFoundException(data);
     }

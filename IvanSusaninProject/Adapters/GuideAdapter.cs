@@ -42,9 +42,9 @@ public class GuideAdapter : IGuideAdapter
             _logger.LogError(ex, "ArgumentNullException");
             return GuideOperationResponse.BadRequest("Data is empty");
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
-            _logger.LogError(ex, "ValidationException");
+            _logger.LogError(ex, "MyValidationException");
             return GuideOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message} ");
         }
         catch (ElementNotFoundException ex)
@@ -81,9 +81,9 @@ public class GuideAdapter : IGuideAdapter
             _logger.LogError(ex, "ArgumentNullException");
             return GuideOperationResponse.BadRequest("Data is empty");
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
-            _logger.LogError(ex, "ValidationException");
+            _logger.LogError(ex, "MyValidationException");
             return GuideOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message} ");
         }
         catch (ElementNotFoundException ex)
@@ -140,9 +140,9 @@ public class GuideAdapter : IGuideAdapter
             _logger.LogError(ex, "ArgumentNullException");
             return GuideOperationResponse.BadRequest("Data is empty");
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
-            _logger.LogError(ex, "ValidationException");
+            _logger.LogError(ex, "MyValidationException");
             return GuideOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message} ");
         }
         catch (ElementExistsException ex)
@@ -175,9 +175,9 @@ public class GuideAdapter : IGuideAdapter
             _logger.LogError(ex, "ArgumentNullException");
             return GuideOperationResponse.BadRequest("Data is empty");
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
-            _logger.LogError(ex, "ValidationException");
+            _logger.LogError(ex, "MyValidationException");
             return GuideOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message} ");
         }
         catch (ElementExistsException ex)
@@ -210,9 +210,9 @@ public class GuideAdapter : IGuideAdapter
             _logger.LogError(ex, "ArgumentNullException");
             return GuideOperationResponse.BadRequest("Id is empty");
         }
-        catch (ValidationException ex)
+        catch (MyValidationException ex)
         {
-            _logger.LogError(ex, "ValidationException");
+            _logger.LogError(ex, "MyValidationException");
             return GuideOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message} ");
         }
         catch (ElementNotFoundException ex)

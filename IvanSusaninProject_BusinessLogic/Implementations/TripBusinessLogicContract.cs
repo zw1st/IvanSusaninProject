@@ -23,7 +23,7 @@ public class TripBusinessLogicContract(ITripStorageContract tripStorageContract,
         }
         if (!creatorId.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyValidationException("Id is not a unique identifier");
         }
         return _tripStorageContract.GetList(creatorId) ?? throw new NullListException();
     }
@@ -37,7 +37,7 @@ public class TripBusinessLogicContract(ITripStorageContract tripStorageContract,
         }
         if (!creatorId.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyValidationException("Id is not a unique identifier");
         }
 
         return _tripStorageContract.GetList(creatorId, null, null, tripDate) ?? throw new NullListException();
@@ -56,7 +56,7 @@ public class TripBusinessLogicContract(ITripStorageContract tripStorageContract,
         }
         if (!creatorId.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyValidationException("Id is not a unique identifier");
         }
         return _tripStorageContract.GetList(creatorId, fromDate, toDate, null) ?? throw new NullListException();
     }
@@ -74,11 +74,11 @@ public class TripBusinessLogicContract(ITripStorageContract tripStorageContract,
         }
         if (!id.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyValidationException("Id is not a unique identifier");
         }
         if (!creatorId.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyValidationException("Id is not a unique identifier");
         }
         return _tripStorageContract.GetElementById(creatorId, id) ?? throw new ElementNotFoundException(id);
     }

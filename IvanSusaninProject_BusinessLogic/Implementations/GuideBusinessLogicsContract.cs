@@ -25,7 +25,7 @@ public class GuideBusinessLogicsContract(IGuideStrorageContract guideStrorageCon
         }
        /* if (!id.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyMyValidationException("Id is not a unique identifier");
         }
         if (creatorId.IsEmpty())
         {
@@ -33,7 +33,7 @@ public class GuideBusinessLogicsContract(IGuideStrorageContract guideStrorageCon
         }
         if (!creatorId.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyMyValidationException("Id is not a unique identifier");
         }*/
         _guideStorageContract.DelElement(creatorId, id);
     }
@@ -47,7 +47,7 @@ public class GuideBusinessLogicsContract(IGuideStrorageContract guideStrorageCon
         }
         /*if (!creatorId.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyMyValidationException("Id is not a unique identifier");
         }*/
         return _guideStorageContract.GetList(creatorId) ?? throw new NullListException();
     }
@@ -61,7 +61,7 @@ public class GuideBusinessLogicsContract(IGuideStrorageContract guideStrorageCon
         }
         /*if (!data.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyMyValidationException("Id is not a unique identifier");
         }
         if (creatorId.IsEmpty())
         {
@@ -69,7 +69,7 @@ public class GuideBusinessLogicsContract(IGuideStrorageContract guideStrorageCon
         }
         if (!creatorId.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyMyValidationException("Id is not a unique identifier");
         }*/
         return _guideStorageContract.GetElementById(creatorId, data) ?? throw new ElementNotFoundException(data);
     }
@@ -99,7 +99,7 @@ public class GuideBusinessLogicsContract(IGuideStrorageContract guideStrorageCon
         }
         /*if (!excursionId.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyMyValidationException("Id is not a unique identifier");
         }
         if (guideId.IsEmpty())
         {
@@ -107,7 +107,7 @@ public class GuideBusinessLogicsContract(IGuideStrorageContract guideStrorageCon
         }
         if (!guideId.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyMyValidationException("Id is not a unique identifier");
         }
         if (creatorId.IsEmpty())
         {
@@ -115,7 +115,7 @@ public class GuideBusinessLogicsContract(IGuideStrorageContract guideStrorageCon
         }
         if (!creatorId.IsGuid())
         {
-            throw new ValidationException("Id is not a unique identifier");
+            throw new MyMyValidationException("Id is not a unique identifier");
         }*/
         var excursion = _excursionStorageContract.GetElementById(creatorId, excursionId) ?? throw new ElementNotFoundException(excursionId);
         excursion.GuideId = guideId;

@@ -11,7 +11,7 @@ public class PlaceDataModel(string id, string address, string city, string name,
 
     public string Name { get; private set; } = name;
 
-    public string GroupId { get; private set; } = groupId;
+    public string GroupId { get; set; } = groupId;
 
     public string GuarandorId { get; private set; } = guaranderId;
 }

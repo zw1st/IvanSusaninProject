@@ -93,9 +93,9 @@ public class TourAdapter : ITourAdapter
             _logger.LogError(ex, "ArgumentNullException");
             return TourOperationResponse.BadRequest("Data is empty");
         }
-        catch (ValidationException ex)
+        catch (IvanSusaninProject_Contracts.Exceptions.MyValidationException ex)
         {
-            _logger.LogError(ex, "ValidationException");
+            _logger.LogError(ex, "MyValidationException");
             return TourOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message}");
         }
         catch (ElementExistsException ex)

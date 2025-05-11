@@ -43,9 +43,9 @@ namespace IvanSusaninProject.Adapters
                 _logger.LogError(ex, "ArgumentNullException");
                 return TripOperationResponse.BadRequest("Data is empty");
             }
-            catch (ValidationException ex)
+            catch (IvanSusaninProject_Contracts.Exceptions.MyValidationException ex)
             {
-                _logger.LogError(ex, "ValidationException");
+                _logger.LogError(ex, "MyValidationException");
                 return TripOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message} ");
             }
             catch (ElementNotFoundException ex)
@@ -82,9 +82,9 @@ namespace IvanSusaninProject.Adapters
                 _logger.LogError(ex, "ArgumentNullException");
                 return TripOperationResponse.BadRequest("Data is empty");
             }
-            catch (ValidationException ex)
+            catch (IvanSusaninProject_Contracts.Exceptions.MyValidationException ex)
             {
-                _logger.LogError(ex, "ValidationException");
+                _logger.LogError(ex, "MyValidationException");
                 return TripOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message} ");
             }
             catch (ElementNotFoundException ex)
@@ -199,9 +199,9 @@ namespace IvanSusaninProject.Adapters
                 _logger.LogError(ex, "ArgumentNullException");
                 return TripOperationResponse.BadRequest("Data is empty");
             }
-            catch (ValidationException ex)
+            catch (IvanSusaninProject_Contracts.Exceptions.MyValidationException ex)
             {
-                _logger.LogError(ex, "ValidationException");
+                _logger.LogError(ex, "MyValidationException");
                 return TripOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message} ");
             }
             catch (ElementExistsException ex)

@@ -42,9 +42,9 @@ namespace IvanSusaninProject.Adapters
                 _logger.LogError(ex, "ArgumentNullException");
                 return PlaceOperationResponse.BadRequest("Data is empty");
             }
-            catch (ValidationException ex)
+            catch (MyValidationException ex)
             {
-                _logger.LogError(ex, "ValidationException");
+                _logger.LogError(ex, "MyValidationException");
                 return PlaceOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message} ");
             }
             catch (ElementNotFoundException ex)
@@ -81,9 +81,9 @@ namespace IvanSusaninProject.Adapters
                 _logger.LogError(ex, "ArgumentNullException");
                 return PlaceOperationResponse.BadRequest("Data is empty");
             }
-            catch (ValidationException ex)
+            catch (MyValidationException ex)
             {
-                _logger.LogError(ex, "ValidationException");
+                _logger.LogError(ex, "MyValidationException");
                 return PlaceOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message} ");
             }
             catch (ElementNotFoundException ex)
@@ -134,9 +134,9 @@ namespace IvanSusaninProject.Adapters
             {
                 return PlaceOperationResponse.OK([.. _placeBusinessLogicContract.GetAllPlacesByGroup(creatorId, groupId).Select(x => _mapper.Map<PlaceViewModel>(x))]);
             }
-            catch (ValidationException ex)
+            catch (MyValidationException ex)
             {
-                _logger.LogError(ex, "ValidationException");
+                _logger.LogError(ex, "MyValidationException");
                 return PlaceOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message} ");
             }
             catch (NullListException)
@@ -169,9 +169,9 @@ namespace IvanSusaninProject.Adapters
                 _logger.LogError(ex, "ArgumentNullException");
                 return PlaceOperationResponse.BadRequest("Data is empty");
             }
-            catch (ValidationException ex)
+            catch (MyValidationException ex)
             {
-                _logger.LogError(ex, "ValidationException");
+                _logger.LogError(ex, "MyValidationException");
                 return PlaceOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message} ");
             }
             catch (ElementExistsException ex)
@@ -204,9 +204,9 @@ namespace IvanSusaninProject.Adapters
                 _logger.LogError(ex, "ArgumentNullException");
                 return PlaceOperationResponse.BadRequest("Id is empty");
             }
-            catch (ValidationException ex)
+            catch (MyValidationException ex)
             {
-                _logger.LogError(ex, "ValidationException");
+                _logger.LogError(ex, "MyValidationException");
                 return PlaceOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message} ");
             }
             catch (ElementNotFoundException ex)

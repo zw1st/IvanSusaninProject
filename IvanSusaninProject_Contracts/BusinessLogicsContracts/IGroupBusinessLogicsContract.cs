@@ -14,5 +14,5 @@ public interface IGroupBusinessLogicsContract
 
     void DeleteGroup(string creatorId, string id);
 
-    void LinkingGroupWithPlace(string placeId);
+    void LinkingGroupWithPlace(string creatorId, string groupId, string placeId);
 }

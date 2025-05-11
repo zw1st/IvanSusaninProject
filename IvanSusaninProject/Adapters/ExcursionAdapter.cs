@@ -6,10 +6,6 @@ using IvanSusaninProject_Contracts.BusinessLogicsContracts;
 using IvanSusaninProject_Contracts.DataModels;
 using IvanSusaninProject_Contracts.Exceptions;
 using IvanSusaninProject_Contracts.ViewModels;
-using IvanSusaninProject_DataBase.Models;
-using System;
-using System.ComponentModel.DataAnnotations;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace IvanSusaninProject.Adapters;
 
@@ -97,9 +93,9 @@ public class ExcursionAdapter : IExcursionAdapter
             _logger.LogError(ex, "ArgumentNullException");
             return ExcursionOperationResponse.BadRequest("Data is empty");
         }
-        catch (ValidationException ex)
+        catch (IvanSusaninProject_Contracts.Exceptions.MyValidationException ex)
         {
-            _logger.LogError(ex, "ValidationException");
+            _logger.LogError(ex, "MyValidationException");
             return ExcursionOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message}");
         }
         catch (ElementExistsException ex)

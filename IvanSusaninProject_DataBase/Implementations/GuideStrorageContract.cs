@@ -105,7 +105,7 @@ internal class GuideStrorageContract : IGuideStrorageContract
     {
         try
         {
-            var element = GetGuideById(guideDataModel.Id, guideDataModel.GuaranderId) ?? throw new ElementNotFoundException(guideDataModel.Id);
+            var element = GetGuideById(guideDataModel.Id, guideDataModel.GuarandorId) ?? throw new ElementNotFoundException(guideDataModel.Id);
             _dbContext.Guides.Update(_mapper.Map(guideDataModel, element));
             _dbContext.SaveChanges();
         }

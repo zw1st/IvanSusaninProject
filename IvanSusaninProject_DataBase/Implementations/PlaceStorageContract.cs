@@ -107,7 +107,7 @@ namespace IvanSusaninProject_DataBase.Implementations
         {
             try
             {
-                var element = GetPlaceById(placeDataModel.Id, placeDataModel.GuaranderId) ?? throw new
+                var element = GetPlaceById(placeDataModel.Id, placeDataModel.GuarandorId) ?? throw new
                 ElementNotFoundException(placeDataModel.Id);
                 _dbContext.Places.Update(_mapper.Map(placeDataModel, element));
                 _dbContext.SaveChanges();

@@ -94,9 +94,9 @@ public class ExecutorAdapter : IExecutorAdapter
             _logger.LogError(ex, "ArgumentNullException");
             return ExecutorOperationResponse.BadRequest("Data is empty");
         }
-        catch (ValidationException ex)
+        catch (IvanSusaninProject_Contracts.Exceptions.MyValidationException ex)
         {
-            _logger.LogError(ex, "ValidationException");
+            _logger.LogError(ex, "MyValidationException");
             return ExecutorOperationResponse.BadRequest($"Incorrect data transmitted: {ex.Message}");
         }
         catch (ElementExistsException ex)

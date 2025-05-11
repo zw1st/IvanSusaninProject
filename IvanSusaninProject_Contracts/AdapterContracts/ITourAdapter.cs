@@ -10,7 +10,7 @@ namespace IvanSusaninProject_Contracts.AdapterContracts;
 
 public interface ITourAdapter
 {
-    TourOperationResponse GetList(string creatorId);
+    TourOperationResponse GetList(string creatorId, DateTime date);
 
     TourOperationResponse GetElement(string creatorId, string data);
 
