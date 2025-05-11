@@ -16,4 +16,8 @@ public interface IExcursionStorageContract
     ExcursionDataModel? GetElementByName(string creatorId, string name);
 
     void AddElement(ExcursionDataModel element);
+
+    public List<ExcursionDataModel> GetExcursionsByTourIds(string executorId, List<string> tripIds);
+
+    public List<object> GetTripsWithDetailsByPeriod(DateTime startDate, DateTime endDate, string guaranderId);
 }
