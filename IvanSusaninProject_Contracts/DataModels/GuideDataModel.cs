@@ -11,5 +11,5 @@ public class GuideDataModel(string id, string fio, int experience, int age, stri
 
     public int Age { get; private set;} = age;
 
-    public string GuaranderId { get; private set;} = guaranderId;
+    public string GuarandorId { get; private set;} = guaranderId;
 }

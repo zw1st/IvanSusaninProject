@@ -95,6 +95,95 @@ internal class ExcursionStorageContract : IExcursionStorageContract
         }
     }
 
+    public List<ExcursionDataModel> GetExcursionsByTourIds(string executorId, List<string> tripIds)
+    {
+        try
+        {
+            var guideIds = _dbContext.TripGuides
+                .Where(tg => tripIds.Contains(tg.TripId))
+                .Select(tg => tg.GuideId)
+                .Distinct()
+                .ToList();
+
+            return [.. _dbContext.Excursions
+                .Where(e => e.ExecutorId == executorId && guideIds.Contains(e.GuideId))
+                .Select(e => _mapper.Map<ExcursionDataModel>(e))];
+        }
+        catch (Exception ex)
+        {
+            _dbContext.ChangeTracker.Clear();
+            throw new StorageException(ex);
+        }
+    }
+
+    public List<object> GetTripsWithDetailsByPeriod(DateTime startDate, DateTime endDate, string guaranderId)
+    {
+        try
+        {
+            // Получаем поездки за указанный период
+            var trips = _dbContext.Trips
+                .Where(t => t.TripDate >= startDate &&
+                           t.TripDate <= endDate &&
+                           t.GuaranderId == guaranderId)
+                .ToList();
+
+            if (trips.Count == 0)
+                return [];
+
+            var tripIds = trips.Select(t => t.Id).ToList();
+
+            // Получаем все связанные данные за один запрос
+            var tripDetails = (
+                from trip in trips
+                join tp in _dbContext.TripPlaces on trip.Id equals tp.TripId into tripPlaces
+                from tp in tripPlaces.DefaultIfEmpty()
+                join place in _dbContext.Places on tp?.PlaceId equals place.Id into places
+                from place in places.DefaultIfEmpty()
+                join groupData in _dbContext.Groups on place?.GroupId equals groupData.Id into groups
+                from groupData in groups.DefaultIfEmpty()
+                join tg in _dbContext.TripGuides on trip.Id equals tg.TripId into tripGuides
+                from tg in tripGuides.DefaultIfEmpty()
+                join guide in _dbContext.Guides on tg?.GuideId equals guide.Id into guides
+                from guide in guides.DefaultIfEmpty()
+                select new
+                {
+                    Trip = trip,
+                    Place = place,
+                    Group = groupData,
+                    Guide = guide
+                }
+            ).ToList();
+
+            // Группируем данные по поездкам
+            var groupedResults = tripDetails
+                .GroupBy(x => x.Trip.Id)
+                .Select(g => new
+                {
+                    Trip = _mapper.Map<TripDataModel>(g.First().Trip),
+                    Places = g.Where(x => x.Place != null)
+                             .Select(x => new
+                             {
+                                 Place = _mapper.Map<PlaceDataModel>(x.Place),
+                                 Group = x.Group != null ? _mapper.Map<GroupDataModel>(x.Group) : null
+                             })
+                             .Distinct()
+                             .ToList(),
+                    Guides = g.Where(x => x.Guide != null)
+                             .Select(x => _mapper.Map<GuideDataModel>(x.Guide))
+                             .Distinct()
+                             .ToList()
+                })
+                .ToList();
+
+            return [.. groupedResults.Cast<object>()];
+        }
+        catch (Exception ex)
+        {
+            _dbContext.ChangeTracker.Clear();
+            throw new StorageException(ex);
+        }
+    }
+
     private Excursion? GetExcursionById(string id, string creatorId) => _dbContext.Excursions.Where(x => x.ExecutorId == creatorId).FirstOrDefault(x => x.Id == id);
 
     private Excursion? GetExcursionByName(string name, string creatorId) => _dbContext.Excursions.Where(x => x.ExecutorId == creatorId).FirstOrDefault(x => x.Name == name);

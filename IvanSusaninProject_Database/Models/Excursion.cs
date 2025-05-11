@@ -15,7 +15,7 @@ public class Excursion
 
     public Executor? Executor { get; set; }
 
-    public required string GuideId { get; set; }
+    public string? GuideId { get; set; }
 
     public Guide? Guide { get; set; }
 

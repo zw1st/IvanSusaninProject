@@ -13,5 +13,5 @@ public class PlaceDataModel(string id, string address, string city, string name,
 
     public string GroupId { get; private set; } = groupId;
 
-    public string GuaranderId { get; private set; } = guaranderId;
+    public string GuarandorId { get; private set; } = guaranderId;
 }

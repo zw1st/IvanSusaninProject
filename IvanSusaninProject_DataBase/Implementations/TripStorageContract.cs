@@ -98,5 +98,7 @@ internal class TripStorageContract : ITripStorageContract
         }
     }
 
+    
+
     private Trip? GetTripById(string id, string creatorId) => _dbContext.Trips.Where(x => x.GuaranderId == creatorId).FirstOrDefault(x => x.Id == id);
 }
