@@ -1,0 +1,40 @@
+﻿@page
+@{
+    ViewData["Title"] = "Главная страница";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6 text-center">
+            <h1 class="mb-4">Туристический помощник</h1>
+            <p class="lead mb-5">Управляйте своими поездками, местами посещения и гидами</p>
+
+            <div class="d-grid gap-3">
+                <!-- Кнопка "Назад" - можно скрыть или сделать неактивной на главной -->
+                <a href="/index" class="btn btn-primary btn-lg py-3">Назад</a>
+
+                <!-- Основные кнопки навигации -->
+                <a href="/trip" class="btn btn-success btn-lg py-3">Места посещения</a>
+                <a href="/place" class="btn btn-success btn-lg py-3">Места посещения</a>
+                <a href="/guide" class="btn btn-success btn-lg py-3">Гиды</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .btn-lg {
+        font-size: 1.2rem;
+        transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+        .btn-lg:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+
+    .disabled {
+        pointer-events: none;
+        opacity: 0.6;
+    }
+</style>

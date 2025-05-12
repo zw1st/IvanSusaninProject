@@ -1,10 +1,38 @@
 ﻿@page
-@model IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Вход в систему";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+    <h2 class="display-4">Добро пожаловать</h2>
 </div>
+
+<form method="post" asp-page="/MainPage" style="margin-top:50px">
+    <div class="row">
+        <div class="col-4"></div>
+        <div class="col-2">Логин:</div>
+        <div class="col-4">
+            <input type="text" name="Login" class="form-control" required />
+        </div>
+    </div>
+    <div class="row" style="margin-top:15px">
+        <div class="col-4"></div>
+        <div class="col-2">Пароль:</div>
+        <div class="col-4">
+            <input type="password" name="Password" class="form-control" required />
+        </div>
+    </div>
+    <div class="row" style="margin-top:15px">
+        <div class="col-4"></div>
+        <div class="col-2">Email (необязательно):</div>
+        <div class="col-4">
+            <input type="email" name="Email" class="form-control" />
+        </div>
+    </div>
+    <div class="row" style="margin-top:30px">
+        <div class="col-8"></div>
+        <div class="col-4">
+            <a href="/mainpage" class="btn btn-primary btn-lg py-3">Войти</a>
+        </div>
+    </div>
+</form>

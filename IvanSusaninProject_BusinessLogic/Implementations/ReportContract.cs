@@ -9,24 +9,18 @@ using System.Linq;
 
 namespace IvanSusaninProject_BusinessLogic.Implementations;
 
-public class ReportContract : IReportContract
+public class ReportContract(
+    IExcursionStorageContract excursionStorage,
+    ITripStorageContract tripStorage,
+    BaseWordBuilder baseWordBuilder,
+    BaseExcelBuilder baseExcelBuilder) : IReportContract
 {
-    private readonly IExcursionStorageContract _excursionStorage;
-    private readonly ITripStorageContract _tripStorage;
-    private readonly BaseWordBuilder _baseWordBuilder;
-    private readonly BaseExcelBuilder _baseExcelBuilder;
-
-    public ReportContract(
-        IExcursionStorageContract excursionStorage,
-        ITripStorageContract tripStorage,
-        BaseWordBuilder baseWordBuilder,
-        BaseExcelBuilder baseExcelBuilder)
-    {
-        _excursionStorage = excursionStorage;
-        _tripStorage = tripStorage;
-        _baseWordBuilder = baseWordBuilder;
-        _baseExcelBuilder = baseExcelBuilder;
-    }
+    private readonly IExcursionStorageContract _excursionStorage = excursionStorage;
+    private readonly ITripStorageContract _tripStorage = tripStorage;
+    private readonly BaseWordBuilder _baseWordBuilder = baseWordBuilder;
+    private readonly BaseExcelBuilder _baseExcelBuilder = baseExcelBuilder;
+    private static readonly string[] item = ["Поездка", "Экскурсии"];
+    private static readonly string[] itemArray = ["Поездка", "Экскурсионная группа", "Гиды"];
 
     public List<ExcursionDataModel> GetExcursionsByTrips(List<string> tripIds, string executorId)
     {
@@ -51,21 +45,21 @@ public class ReportContract : IReportContract
             .Select(g => new { TripName = g.Key, Excursions = g.Select(e => e.Name) });
 
         var tableData = new List<string[]>
-    {
-        new[] { "Поездка", "Экскурсии" }
-    };
+        {
+            item
+        };
 
         foreach (var group in groupedExcursions)
         {
-            tableData.Add(new[] {
+            tableData.Add([
             group.TripName,
             string.Join(", ", group.Excursions)
-        });
+        ]);
         }
 
         return _baseWordBuilder
             .AddHeader("Список экскурсий по поездкам:")
-            .AddTable(new[] { 3000, 5000 }, tableData)
+            .AddTable([3000, 5000], tableData)
             .Build();
     }
 
@@ -79,9 +73,9 @@ public class ReportContract : IReportContract
             throw new InvalidOperationException("No data found");
 
         var tableData = new List<string[]>
-    {
-        new[] { "Поездка", "Экскурсионная группа", "Гиды" }
-    };
+        {
+            itemArray
+        };
 
         foreach (var tripDetail in data)
         {
@@ -95,17 +89,17 @@ public class ReportContract : IReportContract
                 ((IEnumerable<dynamic>)tripDetail.Guides)
                     .Select(g => g.Fio as string));
 
-            tableData.Add(new[]
-            {
+            tableData.Add(
+            [
             tripDetail.Trip.Name as string ?? string.Empty,
             groups,
             guides
-        });
+        ]);
         }
 
         return _baseWordBuilder
             .AddHeader($"Обзор поездок за период с {startDate:dd.MM.yyyy} по {endDate:dd.MM.yyyy}")
-            .AddTable(new[] { 3000, 3000, 3000 }, tableData)
+            .AddTable([3000, 3000, 3000], tableData)
             .Build();
     }
 
@@ -119,22 +113,22 @@ public class ReportContract : IReportContract
             .Select(g => new { TripName = g.Key, Excursions = g.Select(e => e.Name) });
 
         var tableRows = new List<string[]>
-    {
-        new[] { "Поездка", "Экскурсия" }
-    };
+        {
+            item
+        };
 
         foreach (var group in groupedExcursions)
         {
             foreach (var excursion in group.Excursions)
             {
-                tableRows.Add(new[] { group.TripName, excursion });
+                tableRows.Add([group.TripName, excursion]);
             }
         }
 
         return _baseExcelBuilder
             .AddHeader("Список экскурсий по поездкам", 0, 2)
             .AddParagraph("", 0)
-            .AddTable(new[] { 20, 40 }, tableRows)
+            .AddTable([20, 40], tableRows)
             .Build();
     }
 
@@ -148,9 +142,9 @@ public class ReportContract : IReportContract
             throw new InvalidOperationException("No data found");
 
         var tableRows = new List<string[]>
-    {
-        new[] { "Поездка", "Экскурсионная группа", "Гиды" }
-    };
+        {
+            itemArray
+        };
 
         foreach (var tripDetail in data)
         {
@@ -164,18 +158,18 @@ public class ReportContract : IReportContract
                 ((IEnumerable<dynamic>)tripDetail.Guides)
                     .Select(g => g.Fio as string));
 
-            tableRows.Add(new[]
-            {
+            tableRows.Add(
+            [
             tripDetail.Trip.Name as string ?? string.Empty,
             groups,
             guides
-        });
+            ]);
         }
 
         return _baseExcelBuilder
             .AddHeader($"Обзор поездок за период с {startDate:dd.MM.yyyy} по {endDate:dd.MM.yyyy}", 0, 3)
             .AddParagraph("", 0)
-            .AddTable(new[] { 20, 20, 20 }, tableRows)
+            .AddTable([20, 20, 20], tableRows)
             .Build();
     }
 }
