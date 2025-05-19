@@ -1,0 +1,57 @@
+﻿@page
+@{
+    ViewData["Title"] = "Мои поездки";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="/MainPage" class="btn btn-outline-secondary mr-2">Назад</a>
+        <h2>Мои поездки</h2>
+        <a href="/AddTrip" class="btn btn-success">
+            <i class="fas fa-plus"></i> Добавить поездку
+        </a>
+    </div>
+
+    <div class="list-group">
+        <!-- Пример поездки 1 -->
+        <div class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Поездка в Москву</h5>
+                <small class="text-muted">15.05.2023 - 20.05.2023</small>
+            </div>
+            <p class="mb-1">Деловая поездка на конференцию</p>
+        </div>
+
+        <!-- Пример поездки 2 -->
+        <div class="list-group-item list-group-item-action flex-column align-items-start">
+            <div class="d-flex w-100 justify-content-between">
+                <h5 class="mb-1">Отпуск в Сочи</h5>
+                <small class="text-muted">01.07.2023 - 15.07.2023</small>
+            </div>
+            <p class="mb-1">Ежегодный отпуск</p>
+        </div>
+
+        <!-- Пустое состояние -->
+        <div id="no-trips" class="text-center py-5" style="display: none;">
+            <i class="fas fa-suitcase-rolling fa-3x text-muted mb-3"></i>
+            <h4 class="text-muted">У вас пока нет поездок</h4>
+            <p>Добавьте свою первую поездку</p>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        // Пример: скрыть пустое состояние, если есть поездки
+        document.addEventListener('DOMContentLoaded', function() {
+            const trips = document.querySelectorAll('.list-group-item');
+            const noTrips = document.getElementById('no-trips');
+
+            if (trips.length > 0) {
+                noTrips.style.display = 'none';
+            } else {
+                noTrips.style.display = 'block';
+            }
+        });
+    </script>
+}

@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace IvanSusaninProject_DataBase.Implementations;
 
-internal class TourStorageContract : ITourStorageContract
+public class TourStorageContract : ITourStorageContract
 {
     private readonly IvanSusaninProject_DbContext _dbContext;
     private readonly Mapper _mapper;

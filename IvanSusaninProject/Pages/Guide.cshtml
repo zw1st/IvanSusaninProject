@@ -1,0 +1,110 @@
+﻿@page
+@{
+    ViewData["Title"] = "Управление гидами";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="/MainPage" class="btn btn-outline-secondary mr-2">Назад</a>
+        <h2>Список гидов</h2>
+        <a href="/AddGuide" class="btn btn-primary">Добавить гида</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>ID</th>
+                    <th>ФИО</th>
+                    <th>Телефон</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Пример гида 1 -->
+                <tr>
+                    <td>1</td>
+                    <td>Иванов Петр Сергеевич</td>
+                    <td>+7 (123) 456-78-90</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="/EditGuide/1" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+                            <button class="btn btn-sm btn-outline-danger delete-btn" data-id="1">Удалить</button>
+                            <button class="btn btn-sm btn-outline-primary assign-btn" data-id="1">Привязать к экскурсии</button>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Пример гида 2 -->
+                <tr>
+                    <td>2</td>
+                    <td>Смирнова Анна Владимировна</td>
+                    <td>+7 (987) 654-32-10</td>
+                    <td>
+                        <div class="btn-group" role="group">
+                            <a href="/EditGuide/2" class="btn btn-sm btn-outline-secondary">Редактировать</a>
+                            <button class="btn btn-sm btn-outline-danger delete-btn" data-id="2">Удалить</button>
+                            <button class="btn btn-sm btn-outline-primary assign-btn" data-id="2">Привязать к экскурсии</button>
+                        </div>
+                    </td>
+                </tr>
+
+                <!-- Пустое состояние -->
+                <tr id="no-guides" style="display: none;">
+                    <td colspan="6" class="text-center py-4">
+                        <p class="text-muted">Нет доступных гидов</p>
+                        <a href="/AddGuide" class="btn btn-primary">Добавить первого гида</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Обработка удаления гида
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const guideId = this.getAttribute('data-id');
+                    if (confirm('Вы уверены, что хотите удалить этого гида?')) {
+                        // Здесь будет код для удаления гида
+                        console.log('Удаляем гида с ID:', guideId);
+                        this.closest('tr').remove();
+
+                        // Проверка на пустой список
+                        checkEmptyState();
+                    }
+                });
+            });
+
+            // Обработка привязки к экскурсии
+            document.querySelectorAll('.assign-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const guideId = this.getAttribute('data-id');
+                    // Здесь будет код для привязки гида к экскурсии
+                    console.log('Привязываем гида с ID:', guideId, 'к экскурсии');
+                    // Можно добавить модальное окно для выбора экскурсии
+                    alert('Выберите экскурсию для привязки гида ' + guideId);
+                });
+            });
+
+            // Проверка на пустой список
+            function checkEmptyState() {
+                const rows = document.querySelectorAll('tbody tr');
+                const noGuidesRow = document.getElementById('no-guides');
+
+                if (rows.length === 1 && rows[0].id === 'no-guides') {
+                    noGuidesRow.style.display = '';
+                } else if (rows.length === 0) {
+                    noGuidesRow.style.display = '';
+                } else {
+                    noGuidesRow.style.display = 'none';
+                }
+            }
+
+            // Первоначальная проверка
+            checkEmptyState();
+        });
+    </script>
+}

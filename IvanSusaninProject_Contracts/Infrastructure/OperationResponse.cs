@@ -21,7 +21,7 @@ namespace IvanSusaninProject_Contracts.Infrastructure
             }
             return new ObjectResult(Result);
         }
-        protected static TResult OK<TResult, TData>(TData data) where TResult :
+        protected static TResult OK<TResult, TData>(TData data, string fileName) where TResult :
         OperationResponse, new() => new()
         {
             StatusCode = HttpStatusCode.OK,

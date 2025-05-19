@@ -1,0 +1,97 @@
+﻿@page
+@{
+    ViewData["Title"] = "Места посещения";
+}
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="/MainPage" class="btn btn-outline-secondary mr-2">Назад</a>
+        <h2>Мои места</h2>
+        <div>
+            <a href="/AddPlace" class="btn btn-success">Добавить место</a>
+            <button class="btn btn-outline-secondary ml-2" id="filter-btn">Фильтры</button>
+        </div>
+    </div>
+
+    <!-- Список мест -->
+    <div class="row">
+        <!-- Место 1 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="card-title">Красная площадь</h5>
+                    </div>
+                    <p class="card-text text-muted">Москва, Россия</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-info">Достопримечательность</span>
+                        <div>
+                            <a href="/EditPlace/1" class="btn btn-sm btn-outline-primary">Редактировать</a>
+                            <button class="btn btn-sm btn-outline-danger ml-1 delete-btn" data-id="1">Удалить</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <small class="text-muted">Последнее посещение: 15.05.2023</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Место 2 -->
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <h5 class="card-title">Кафе Пушкинъ</h5>
+                    </div>
+                    <p class="card-text text-muted">Москва, Россия</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="badge bg-warning">Ресторан</span>
+                        <div>
+                            <a href="/EditPlace/2" class="btn btn-sm btn-outline-primary">Редактировать</a>
+                            <button class="btn btn-sm btn-outline-danger ml-1 delete-btn" data-id="2">Удалить</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer bg-transparent">
+                    <small class="text-muted">Последнее посещение: 10.05.2023</small>
+                </div>
+            </div>
+        </div>
+
+        <!-- Пустое состояние -->
+        <div class="col-12 text-center py-5" id="no-places" style="display: none;">
+            <h4 class="text-muted">У вас пока нет сохраненных мест</h4>
+            <p>Добавьте первое место, чтобы начать коллекцию</p>
+            <a href="/AddPlace" class="btn btn-success mt-3">Добавить место</a>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Обработка удаления
+            document.querySelectorAll('.delete-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const placeId = this.getAttribute('data-id');
+                    if (confirm('Вы уверены, что хотите удалить это место?')) {
+                        // Здесь будет код для удаления места
+                        console.log('Удаляем место с ID:', placeId);
+                        this.closest('.col-md-6').remove();
+
+                        // Проверка на пустой список
+                        if (document.querySelectorAll('.col-md-6').length === 0) {
+                            document.getElementById('no-places').style.display = 'block';
+                        }
+                    }
+                });
+            });
+
+            // Проверка на пустой список при загрузке
+            if (document.querySelectorAll('.col-md-6').length === 0) {
+                document.getElementById('no-places').style.display = 'block';
+            }
+        });
+    </script>
+}

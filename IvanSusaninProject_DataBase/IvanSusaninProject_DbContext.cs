@@ -12,7 +12,7 @@ using IvanSusaninProject_DataBase.Models;
 
 namespace IvanSusaninProject_Database;
 
-internal class IvanSusaninProject_DbContext(IConfigurationDatabase configurationDatabase) : DbContext
+public class IvanSusaninProject_DbContext(IConfigurationDatabase configurationDatabase) : DbContext
 {
     private readonly IConfigurationDatabase? _configurationDatabase =
     configurationDatabase;

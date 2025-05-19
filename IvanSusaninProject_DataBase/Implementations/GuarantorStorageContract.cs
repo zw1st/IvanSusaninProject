@@ -7,7 +7,7 @@ using IvanSusaninProject_DataBase.Models;
 
 namespace IvanSusaninProject_DataBase.Implementations;
 
-internal class GuarantorStorageContract : IGuarantorStorageContract
+public class GuarantorStorageContract : IGuarantorStorageContract
 {
     private readonly IvanSusaninProject_DbContext _dbContext;
 
