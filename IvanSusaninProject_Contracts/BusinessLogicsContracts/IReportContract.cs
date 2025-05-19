@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 
-namespace IvanSusaninProject_Contracts.StorageContracts
+namespace IvanSusaninProject_Contracts.BusinessLogicsContracts
 {
     public interface IReportContract
     {
