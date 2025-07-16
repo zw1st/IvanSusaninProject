@@ -5,11 +5,9 @@ namespace IvanSusaninProject_Contracts.AdapterContracts.OperationResponses;
 
 public class ReportOperationResponse : OperationResponse
 {
-    public static ReportOperationResponse OK(List<ProductAndProductHistoryViewModel> data) => OK<ReportOperationResponse, List<ProductAndProductHistoryViewModel>>(data);
+    public static ReportOperationResponse OK(List<TripViewModel> data) => OK<ReportOperationResponse, List<TripViewModel>>(data);
 
-    public static ReportOperationResponse OK(List<SaleViewModel> data) => OK<ReportOperationResponse, List<SaleViewModel>>(data);
-
-    public static ReportOperationResponse OK(List<WorkerSalaryByPeriodViewModel> data) => OK<ReportOperationResponse, List<WorkerSalaryByPeriodViewModel>>(data);
+    public static ReportOperationResponse OK(List<ExcursionViewModel> data) => OK<ReportOperationResponse, List<ExcursionViewModel>>(data);
 
     public static ReportOperationResponse OK(Stream data, string fileName) => OK<ReportOperationResponse, Stream>(data, fileName);
 

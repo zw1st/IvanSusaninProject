@@ -18,22 +18,22 @@ public class ReportContract(
     private static readonly string[] item = ["Поездка", "Экскурсии"];
     private static readonly string[] itemArray = ["Поездка", "Экскурсионная группа", "Гиды"];
 
-    public List<ExcursionDataModel> GetExcursionsByTrips(List<string> tripIds, string executorId)
+    public Task<List<ExcursionDataModel>> GetExcursionsByTrips(List<string> tripIds, string executorId, CancellationToken ct)
     {
-        return _excursionStorage.GetExcursionsByTourIds(executorId, tripIds);
+        return _excursionStorage.GetExcursionsByTourIds(executorId, tripIds, ct);
     }
 
-    public List<object> GetTripsDetailsByPeriod(DateTime startDate, DateTime endDate, string guarantorId)
+    public async Task<List<object>> GetTripsDetailsByPeriod(DateTime startDate, DateTime endDate, string guarantorId, CancellationToken ct)
     {
         if (startDate > endDate)
             throw new ArgumentException("Start date cannot be later than end date");
 
-        return _excursionStorage.GetTripsWithDetailsByPeriod(startDate, endDate, guarantorId);
+        return await _excursionStorage.GetTripsWithDetailsByPeriod(startDate, endDate, guarantorId, ct);
     }
 
-    public Stream CreateWordDocumentExcursionsByTrips(List<string> tripIds, string executorId)
+    public async Task<Stream> CreateWordDocumentExcursionsByTrips(List<string> tripIds, string executorId, CancellationToken ct)
     {
-        var data = GetExcursionsByTrips(tripIds, executorId) ??
+        var data = await GetExcursionsByTrips(tripIds, executorId, ct) ??
                   throw new InvalidOperationException("No data found");
 
         var groupedExcursions = data
@@ -41,13 +41,14 @@ public class ReportContract(
             .Select(g => new { TripName = g.Key, Excursions = g.Select(e => e.Name) });
 
         var tableData = new List<string[]>
-        {
-            item
-        };
+    {
+        item
+    };
 
         foreach (var group in groupedExcursions)
         {
-            tableData.Add([
+            tableData.Add(
+            [
             group.TripName,
             string.Join(", ", group.Excursions)
         ]);
@@ -59,9 +60,9 @@ public class ReportContract(
             .Build();
     }
 
-    public Stream CreateWordDocumentTripsDetailsByPeriod(DateTime startDate, DateTime endDate, string guarantorId)
+    public async Task<Stream> CreateWordDocumentTripsDetailsByPeriod(DateTime startDate, DateTime endDate, string guarantorId, CancellationToken ct)
     {
-        var data = GetTripsDetailsByPeriod(startDate, endDate, guarantorId)
+        var data = (await GetTripsDetailsByPeriod(startDate, endDate, guarantorId, ct))
             .Cast<dynamic>()
             .ToList();
 
@@ -69,7 +70,7 @@ public class ReportContract(
             throw new InvalidOperationException("No data found");
 
         var tableData = new List<string[]>
-        {
+    {
             itemArray
         };
 
@@ -99,9 +100,9 @@ public class ReportContract(
             .Build();
     }
 
-    public Stream CreateExcelDocumentExcursionsByTrips(List<string> tripIds, string executorId)
+    public async Task<Stream> CreateExcelDocumentExcursionsByTrips(List<string> tripIds, string executorId, CancellationToken ct)
     {
-        var data = GetExcursionsByTrips(tripIds, executorId) ??
+        var data = await GetExcursionsByTrips(tripIds, executorId, ct) ??
                   throw new InvalidOperationException("No data found");
 
         var groupedExcursions = data
@@ -109,9 +110,9 @@ public class ReportContract(
             .Select(g => new { TripName = g.Key, Excursions = g.Select(e => e.Name) });
 
         var tableRows = new List<string[]>
-        {
-            item
-        };
+    {
+        item
+    };
 
         foreach (var group in groupedExcursions)
         {
@@ -128,9 +129,9 @@ public class ReportContract(
             .Build();
     }
 
-    public Stream CreateExcelDocumentTripsDetailsByPeriod(DateTime startDate, DateTime endDate, string guarantorId)
+    public async Task<Stream> CreateExcelDocumentTripsDetailsByPeriod(DateTime startDate, DateTime endDate, string guarantorId, CancellationToken ct)
     {
-        var data = GetTripsDetailsByPeriod(startDate, endDate, guarantorId)
+        var data = (await GetTripsDetailsByPeriod(startDate, endDate, guarantorId, ct))
             .Cast<dynamic>()
             .ToList();
 
@@ -138,9 +139,9 @@ public class ReportContract(
             throw new InvalidOperationException("No data found");
 
         var tableRows = new List<string[]>
-        {
-            itemArray
-        };
+    {
+        itemArray
+    };
 
         foreach (var tripDetail in data)
         {
@@ -159,7 +160,7 @@ public class ReportContract(
             tripDetail.Trip.Name as string ?? string.Empty,
             groups,
             guides
-            ]);
+        ]);
         }
 
         return _baseExcelBuilder

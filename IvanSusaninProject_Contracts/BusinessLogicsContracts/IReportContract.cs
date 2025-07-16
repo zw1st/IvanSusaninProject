@@ -7,19 +7,19 @@ namespace IvanSusaninProject_Contracts.BusinessLogicsContracts
     public interface IReportContract
     {
         // Отчет со списком экскурсий по выбранным поездкам
-        List<ExcursionDataModel> GetExcursionsByTrips(List<string> tripIds, string executorId);
+        Task<List<ExcursionDataModel>> GetExcursionsByTrips(List<string> tripIds, string executorId, CancellationToken ct);
 
-        public Stream CreateWordDocumentExcursionsByTrips(List<string> tripIds, string executorId);
+        Task<Stream> CreateWordDocumentExcursionsByTrips(List<string> tripIds, string executorId, CancellationToken ct);
 
-        public Stream CreateExcelDocumentExcursionsByTrips(List<string> tripIds, string executorId);
+        Task<Stream> CreateExcelDocumentExcursionsByTrips(List<string> tripIds, string executorId, CancellationToken ct);
 
 
         // Отчет со сведениями за период по поездкам
-        List<object> GetTripsDetailsByPeriod(DateTime startDate, DateTime endDate, string guarantorId);
+        Task<List<object>> GetTripsDetailsByPeriod(DateTime startDate, DateTime endDate, string guarantorId, CancellationToken ct);
 
-        public Stream CreateWordDocumentTripsDetailsByPeriod(DateTime startDate, DateTime endDate, string guarantorId);
+        Task<Stream> CreateWordDocumentTripsDetailsByPeriod(DateTime startDate, DateTime endDate, string guarantorId, CancellationToken ct);
 
-        public Stream CreateExcelDocumentTripsDetailsByPeriod(DateTime startDate, DateTime endDate, string guarantorId);
+        Task<Stream> CreateExcelDocumentTripsDetailsByPeriod(DateTime startDate, DateTime endDate, string guarantorId, CancellationToken ct);
 
     }
 }

@@ -95,19 +95,22 @@ public class ExcursionStorageContract : IExcursionStorageContract
         }
     }
 
-    public List<ExcursionDataModel> GetExcursionsByTourIds(string executorId, List<string> tripIds)
+    public async Task<List<ExcursionDataModel>> GetExcursionsByTourIds(string executorId, List<string> tripIds, CancellationToken ct)
     {
         try
         {
-            var guideIds = _dbContext.TripGuides
+            var guideIds = await _dbContext.TripGuides
                 .Where(tg => tripIds.Contains(tg.TripId))
                 .Select(tg => tg.GuideId)
                 .Distinct()
-                .ToList();
+                .ToListAsync(ct);
 
-            return [.. _dbContext.Excursions
+            var excursions = await _dbContext.Excursions
                 .Where(e => e.ExecutorId == executorId && guideIds.Contains(e.GuideId))
-                .Select(e => _mapper.Map<ExcursionDataModel>(e))];
+                .Select(e => _mapper.Map<ExcursionDataModel>(e))
+                .ToListAsync(ct);
+
+            return excursions;
         }
         catch (Exception ex)
         {
@@ -116,34 +119,24 @@ public class ExcursionStorageContract : IExcursionStorageContract
         }
     }
 
-    public List<object> GetTripsWithDetailsByPeriod(DateTime startDate, DateTime endDate, string guaranderId)
+    public async Task<List<object>> GetTripsWithDetailsByPeriod(DateTime startDate, DateTime endDate, string guaranderId, CancellationToken ct)
     {
         try
         {
-            // Получаем поездки за указанный период
-            var trips = _dbContext.Trips
-                .Where(t => t.TripDate >= startDate &&
-                           t.TripDate <= endDate &&
-                           t.GuaranderId == guaranderId)
-                .ToList();
-
-            if (trips.Count == 0)
-                return [];
-
-            var tripIds = trips.Select(t => t.Id).ToList();
-
-            // Получаем все связанные данные за один запрос
-            var tripDetails = (
-                from trip in trips
+            var query =
+                from trip in _dbContext.Trips
+                where trip.TripDate >= startDate
+                      && trip.TripDate <= endDate
+                      && trip.GuaranderId == guaranderId
                 join tp in _dbContext.TripPlaces on trip.Id equals tp.TripId into tripPlaces
                 from tp in tripPlaces.DefaultIfEmpty()
-                join place in _dbContext.Places on tp?.PlaceId equals place.Id into places
+                join place in _dbContext.Places on tp.PlaceId equals place.Id into places
                 from place in places.DefaultIfEmpty()
-                join groupData in _dbContext.Groups on place?.GroupId equals groupData.Id into groups
+                join groupData in _dbContext.Groups on place.GroupId equals groupData.Id into groups
                 from groupData in groups.DefaultIfEmpty()
                 join tg in _dbContext.TripGuides on trip.Id equals tg.TripId into tripGuides
                 from tg in tripGuides.DefaultIfEmpty()
-                join guide in _dbContext.Guides on tg?.GuideId equals guide.Id into guides
+                join guide in _dbContext.Guides on tg.GuideId equals guide.Id into guides
                 from guide in guides.DefaultIfEmpty()
                 select new
                 {
@@ -151,10 +144,13 @@ public class ExcursionStorageContract : IExcursionStorageContract
                     Place = place,
                     Group = groupData,
                     Guide = guide
-                }
-            ).ToList();
+                };
 
-            // Группируем данные по поездкам
+            var tripDetails = await query.ToListAsync(ct);
+
+            if (tripDetails.Count == 0)
+                return new List<object>();
+
             var groupedResults = tripDetails
                 .GroupBy(x => x.Trip.Id)
                 .Select(g => new
@@ -175,7 +171,7 @@ public class ExcursionStorageContract : IExcursionStorageContract
                 })
                 .ToList();
 
-            return [.. groupedResults.Cast<object>()];
+            return groupedResults.Cast<object>().ToList();
         }
         catch (Exception ex)
         {
