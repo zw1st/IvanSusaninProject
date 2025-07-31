@@ -82,7 +82,7 @@ public class TripStorageContract : ITripStorageContract
     {
         try
         {
-            var element = GetTripById(tripDataModel.Id, tripDataModel.GuaranderId) ?? throw new ElementNotFoundException(tripDataModel.Id);
+            var element = GetTripById(tripDataModel.Id, tripDataModel.GuarandorId) ?? throw new ElementNotFoundException(tripDataModel.Id);
             _dbContext.Trips.Update(_mapper.Map(tripDataModel, element));
             _dbContext.SaveChanges();
         }
