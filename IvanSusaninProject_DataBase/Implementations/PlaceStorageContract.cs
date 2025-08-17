@@ -89,7 +89,7 @@ public class PlaceStorageContract : IPlaceStorageContract
     {
         try
         {
-            var query = _dbContext.Places.Include(x => x.TripPlaces).Where(x => x.GuaranderId == guarantorId).AsQueryable();
+            var query = _dbContext.Places.Include(x => x.TripPlaces).Where(x => x.GuarantorId == guarantorId).AsQueryable();
             if (groupId is not null)
             {
                 query = query.Where(x => x.GroupId == groupId);
@@ -107,7 +107,7 @@ public class PlaceStorageContract : IPlaceStorageContract
     {
         try
         {
-            var element = GetPlaceById(placeDataModel.Id, placeDataModel.GuarandorId) ?? throw new
+            var element = GetPlaceById(placeDataModel.Id, placeDataModel.GuarantorId) ?? throw new
             ElementNotFoundException(placeDataModel.Id);
             _dbContext.Places.Update(_mapper.Map(placeDataModel, element));
             _dbContext.SaveChanges();
@@ -124,7 +124,7 @@ public class PlaceStorageContract : IPlaceStorageContract
         }
     }
 
-    private Place? GetPlaceById(string id, string creatorId) => _dbContext.Places.Where(x => x.GuaranderId == creatorId).FirstOrDefault(x => x.Id == id);
+    private Place? GetPlaceById(string id, string creatorId) => _dbContext.Places.Where(x => x.GuarantorId == creatorId).FirstOrDefault(x => x.Id == id);
 
-    private Place? GetPlaceByName(string name, string creatorId) => _dbContext.Places.Where(x => x.GuaranderId == creatorId).FirstOrDefault(x => x.Name == name);
+    private Place? GetPlaceByName(string name, string creatorId) => _dbContext.Places.Where(x => x.GuarantorId == creatorId).FirstOrDefault(x => x.Name == name);
 }

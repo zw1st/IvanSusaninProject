@@ -5,7 +5,7 @@ using IvanSusaninProject_Contracts.Infrastructure;
 
 namespace IvanSusaninProject_Contracts.DataModels;
 
-public class PlaceDataModel(string id, string address, string city, string name, string groupId, string guaranderId) : IValidation
+public class PlaceDataModel(string id, string address, string city, string name, string groupId, string guarantorId) : IValidation
 {
     public string Id { get; private set; } = id;
 
@@ -17,14 +17,14 @@ public class PlaceDataModel(string id, string address, string city, string name,
 
     public string GroupId { get; set; } = groupId;
 
-    public string GuarandorId { get; private set; } = guaranderId;
+    public string GuarantorId { get; private set; } = guarantorId;
 
     public void IValidate()
     {
-        if (!GuarandorId.IsGuid())
+        if (!GuarantorId.IsGuid())
             throw new ValidationException("This Id is not unique");
 
-        if (GuarandorId.IsEmpty())
+        if (GuarantorId.IsEmpty())
             throw new ValidationException("This field is empty");
 
         if (!Id.IsGuid())

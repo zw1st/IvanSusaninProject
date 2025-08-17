@@ -19,7 +19,7 @@ public class ExcursionStorageContract : IExcursionStorageContract
         var config = new MapperConfiguration(cfg =>
         {
             cfg.CreateMap<Excursion, ExcursionDataModel>();
-            cfg.CreateMap<ExecutorDataModel, Excursion>();
+            cfg.CreateMap<ExcursionDataModel, Excursion>();
 
             cfg.CreateMap<TourExcursion, TourExcursionDataModel>();
             cfg.CreateMap<TourExcursionDataModel, TourExcursion>();
@@ -76,17 +76,24 @@ public class ExcursionStorageContract : IExcursionStorageContract
     {
         try
         {
-            var query = _dbContext.Excursions.Where(x => x.ExecutorId == executorId).Include(x => x.TourExcursions).AsQueryable();
-            
+            var query = _dbContext.Excursions
+                .Include(x => x.TourExcursions)
+                .Include(x => x.Guide) // Добавляем загрузку гида
+                .Where(x => x.ExecutorId == executorId)
+                .AsQueryable();
+
             if (guideId is not null)
             {
                 query = query.Where(x => x.GuideId == guideId);
             }
             if (dateTime is not null)
             {
-                query = query.Where(x => x.ExcursionDate == dateTime);
+                // Сравниваем только дату без времени
+                query = query.Where(x =>
+                    x.ExcursionDate.Date == dateTime.Value.Date);
             }
-            return [.. query.Select(x => _mapper.Map<ExcursionDataModel>(x))];
+
+            return _mapper.Map<List<ExcursionDataModel>>(query.ToList());
         }
         catch (Exception ex)
         {
@@ -127,7 +134,7 @@ public class ExcursionStorageContract : IExcursionStorageContract
                 from trip in _dbContext.Trips
                 where trip.TripDate >= startDate
                       && trip.TripDate <= endDate
-                      && trip.GuaranderId == guaranderId
+                      && trip.GuarandorId == guaranderId
                 join tp in _dbContext.TripPlaces on trip.Id equals tp.TripId into tripPlaces
                 from tp in tripPlaces.DefaultIfEmpty()
                 join place in _dbContext.Places on tp.PlaceId equals place.Id into places

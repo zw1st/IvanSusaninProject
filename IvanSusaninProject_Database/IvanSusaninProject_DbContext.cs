@@ -31,8 +31,8 @@ public class IvanSusaninProject_DbContext(IConfigurationDatabase configurationDa
         modelBuilder.Entity<Excursion>().HasIndex(x => x.Name).IsUnique();
         modelBuilder.Entity<Executor>().HasIndex(x => new { x.Login, x.Password }).IsUnique();
         modelBuilder.Entity<Tour>().HasIndex(x => x.Name).IsUnique();
-        modelBuilder.Entity<TourExcursion>().HasIndex(x => new { x.TourId, x.ExcursionId });
-        modelBuilder.Entity<TourGroup>().HasIndex(x => new { x.TourId, x.GroupId });
+        modelBuilder.Entity<TourExcursion>().HasKey(x => new { x.TourId, x.ExcursionId });
+        modelBuilder.Entity<TourGroup>().HasKey(x => new { x.TourId, x.GroupId });
         modelBuilder.Entity<Guarantor>().HasIndex(e => new { e.Login, e.Password }).IsUnique();
         modelBuilder.Entity<Guide>().HasIndex(e => new { e.Fio }).IsUnique();
         modelBuilder.Entity<Place>().HasIndex(x => new { x.Name }).IsUnique();

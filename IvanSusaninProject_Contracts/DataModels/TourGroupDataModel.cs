@@ -10,5 +10,6 @@ namespace IvanSusaninProject_Contracts.DataModels;
 public class TourGroupDataModel(string tourId, string groupId)
 {
     public string TourId { get; private set; } = tourId;
+
     public string GroupId { get; private set; } = groupId;
 }

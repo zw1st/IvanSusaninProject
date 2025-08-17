@@ -91,7 +91,7 @@ public class GuideStrorageContract : IGuideStrorageContract
     {
         try
         {
-            var query = _dbContext.Guides.Include(x => x.TripGuides).Where(x => x.GuaranderId == guarantorId).AsQueryable();
+            var query = _dbContext.Guides.Include(x => x.TripGuides).Where(x => x.GuarandorId == guarantorId).AsQueryable();
             return [.. query.Select(x => _mapper.Map<GuideDataModel>(x))];
         }
         catch (Exception ex)
@@ -121,7 +121,7 @@ public class GuideStrorageContract : IGuideStrorageContract
         }
     }
 
-    private Guide? GetGuideById(string id, string creatorId) => _dbContext.Guides.Where(x=> x.GuaranderId == creatorId).FirstOrDefault(x => x.Id == id);
+    private Guide? GetGuideById(string id, string creatorId) => _dbContext.Guides.Where(x=> x.GuarandorId == creatorId).FirstOrDefault(x => x.Id == id);
 
-    private Guide? GetGuideByFIO(string fio, string creatorId) => _dbContext.Guides.Where(x => x.GuaranderId == creatorId).FirstOrDefault(x => x.Fio == fio);
+    private Guide? GetGuideByFIO(string fio, string creatorId) => _dbContext.Guides.Where(x => x.GuarandorId == creatorId).FirstOrDefault(x => x.Fio == fio);
 }

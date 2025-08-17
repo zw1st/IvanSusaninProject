@@ -13,9 +13,9 @@ public class Place
 
     public required string Name { get; set; }
 
-    public required string GroupId { get; set; }
+    public string? GroupId { get; set; }
 
-    public required string GuaranderId { get; set; }
+    public string? GuarantorId { get; set; }
 
     public Group? Group { get; set; }
 
