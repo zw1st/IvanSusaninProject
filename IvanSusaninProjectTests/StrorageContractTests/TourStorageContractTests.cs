@@ -66,99 +66,69 @@ internal class TourStorageContractTests : BaseStorageContractTest
         AssertElement(list.First(x => x.Id == tour.Id), tour);
     }
 
-    /*[Test]
+    [Test]
     public void Try_GetElementById_WhenHaveRecord_Test()
     {
-        var tripId = Guid.NewGuid().ToString();
-        var trip = InsertTripToDatabaseAndReturn(tripId, _guarantor.Id, "test 1", "test 2", DateTime.UtcNow, 1,
-        places: [(tripId, _place.Id)],
-        guides: [(tripId, _guide.Id)]);
-        AssertElement(_tripStorageContract.GetElementById(_guarantor.Id, trip.Id), trip);
+        var tourId = Guid.NewGuid().ToString();
+        var tour = InsertTourToDatabaseAndReturn(tourId, "test1", "city", DateTime.UtcNow, DateTime.UtcNow, _executor.Id,
+        excursions: [(tourId, _excursion.Id)],
+        groups: [(tourId, _group.Id)]);
+        AssertElement(_tourStorageContract.GetElementById(_executor.Id, tour.Id), tour);
+    }
+
+    [Test]
+    public void Try_GetElementByName_WhenHaveRecord_Test()
+    {
+        var tourId = Guid.NewGuid().ToString();
+        var tour = InsertTourToDatabaseAndReturn(tourId, "test1", "city", DateTime.UtcNow, DateTime.UtcNow, _executor.Id,
+        excursions: [(tourId, _excursion.Id)],
+        groups: [(tourId, _group.Id)]);
+        AssertElement(_tourStorageContract.GetElementByName(_executor.Id, tour.Name), tour);
     }
 
     [Test]
     public void Try_AddElement_Test()
     {
-        var tripId = Guid.NewGuid().ToString();
+        var tourId = Guid.NewGuid().ToString();
 
 
         // Создаем и проверяем место
-        var place = InsertPlaceToDatabaseAndReturn(_guarantor.Id, _group.Id);
+        //var excursion = InsertExcursionToDatabaseAndReturn(_executor.Id, DateTime.UtcNow, _guide.Id);
 
-        // Явная проверка, что место доступно через основной контекст
-        var placeExists = _tripStorageContract.CheckPlaceExists(place.Id);
-        Assert.That(placeExists, Is.True, "Место должно существовать в БД");
-        var guide = InsertGuideToDatabaseAndReturn(_guarantor.Id);
+        //var guide = InsertGuideToDatabaseAndReturn(_guarantor.Id);
 
-        // Создаем модель поездки
-        var trip = CreateModel(
-            tripId,
-            "test1",
-            "test2",
+        // Создаем модель тура
+        var tour = CreateModel(
+            tourId,
+            "name1",
+            "city",
             DateTime.UtcNow,
-            1,
-            _guarantor.Id,
-            tripPlaces: [new TripPlaceDataModel(tripId, place.Id)],
-            tripGuides: [new TripGuideDataModel(tripId, guide.Id)]
+            DateTime.UtcNow,
+            _executor.Id,
+            excursions: [new TourExcursionDataModel(tourId, _excursion.Id)],
+            groups: [new TourGroupDataModel(tourId, _group.Id)]
         );
 
         // Сохраняем и проверяем
-        _tripStorageContract.AddElement(trip);
+        _tourStorageContract.AddElement(tour);
 
-        // Проверяем, что поездка сохранилась
-        var tripFromDb = GetTripFromDatabase(trip.Id);
-        Assert.That(tripFromDb, Is.Not.Null, "Поездка не сохранилась в БД");
+        // Проверяем, что тур сохранился
+        var tourFromDb = GetTourFromDatabase(tour.Id);
+        Assert.That(tourFromDb, Is.Not.Null, "Тур не сохранилась в БД");
 
         // Проверяем связи
         Assert.That(
-            IvanSusaninProject_DbContext.TripPlaces.Any(tp =>
-                tp.TripId == tripId && tp.PlaceId == place.Id),
-            Is.True, "Связь с местом не создана");
+            IvanSusaninProject_DbContext.TourExcursions.Any(tp =>
+                tp.TourId == tourId && tp.ExcursionId == _excursion.Id),
+            Is.True, "Связь с екскурсией не создана");
 
         Assert.That(
-            IvanSusaninProject_DbContext.TripGuides.Any(tg =>
-                tg.TripId == tripId && tg.GuideId == guide.Id),
-            Is.True, "Связь с гидом не создана");
+            IvanSusaninProject_DbContext.TourGroups.Any(tg =>
+                tg.TourId == tourId && tg.GroupId == _group.Id),
+            Is.True, "Связь с группой не создана");
 
-        AssertElement(tripFromDb, trip);
+        AssertElement(tourFromDb, tour);
     }
-
-    [Test]
-    public void Try_UpdElement_Test()
-    {
-        var tripId = Guid.NewGuid().ToString();
-
-        // Создаем и добавляем место и гида в базу
-        var place = InsertPlaceToDatabaseAndReturn(_guarantor.Id, _group.Id);
-        var guide = InsertGuideToDatabaseAndReturn(_guarantor.Id);
-
-        // Сначала создаем поездку с местом и гидом
-        var trip = InsertTripToDatabaseAndReturn(
-            tripId,
-            _guarantor.Id,
-            "test 3",
-            "test 4",
-            DateTime.UtcNow,
-            2,
-            places: [(tripId, place.Id)],
-            guides: [(tripId, guide.Id)]
-        );
-
-        // Обновляем поездку
-        var updatedTrip = CreateModel(
-            tripId,
-            "test1",
-            "test2",
-            DateTime.UtcNow,
-            1,
-            _guarantor.Id,
-            tripPlaces: [new TripPlaceDataModel(tripId, place.Id)],
-            tripGuides: [new TripGuideDataModel(tripId, guide.Id)]
-        );
-
-        _tripStorageContract.UpdElement(updatedTrip);
-        AssertElement(GetTripFromDatabase(trip.Id), updatedTrip);
-    }*/
 
     private Guarantor InsertGuarantorToDatabaseAndReturn(string login = "test1", string password = "11111118", string email = "example@example.com")
     {
