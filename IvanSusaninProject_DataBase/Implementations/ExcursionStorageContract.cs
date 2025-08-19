@@ -72,7 +72,7 @@ public class ExcursionStorageContract : IExcursionStorageContract
         }
     }
 
-    public List<ExcursionDataModel> GetList(string executorId, DateTime? dateTime, string? guideId)
+    public List<ExcursionDataModel> GetList(string executorId, DateTime? dateTime = null, string? guideId = null)
     {
         try
         {

@@ -71,14 +71,14 @@ public class TourStorageContract : ITourStorageContract
         }
     }
 
-    public List<TourDataModel> GetList(string? executorId, DateTime? dateTime) 
+    public List<TourDataModel> GetList(string? executorId, DateTime? dateTime = null) 
     {
         try
         {
             var query = _dbContext.Tours.Include(x => x.TourGroups).Include(x => x.TourExcursions).AsQueryable();
             if (executorId is not null)
             {
-                query = query.Where(x => x.ExecutorId == executorId);
+                query = query.Where(x => x.ExecutorId == executorId );
             }
             if (dateTime is not null)
             {

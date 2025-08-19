@@ -60,7 +60,7 @@ internal class TourStorageContractTests : BaseStorageContractTest
         InsertTourToDatabaseAndReturn(tourId2, "test3", "city2", DateTime.UtcNow, DateTime.UtcNow, _executor.Id,
         excursions: [(tourId2, _excursion.Id)],
         groups: [(tourId2, _group.Id)]);
-        var list = _tourStorageContract.GetList(_executor.Id, DateTime.UtcNow);
+        var list = _tourStorageContract.GetList(_executor.Id);
         Assert.That(list, Is.Not.Null);
         Assert.That(list, Has.Count.EqualTo(3));
         AssertElement(list.First(x => x.Id == tour.Id), tour);
