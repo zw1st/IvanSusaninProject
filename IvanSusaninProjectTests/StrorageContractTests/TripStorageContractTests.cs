@@ -16,13 +16,15 @@ internal class TripStorageContractTests : BaseStorageContractTest
     private Place _place;
     private Guide _guide;
     private Group _group;
+    private Executor _executor;
 
     [SetUp]
     public void SetUp()
     {
         _tripStorageContract = new TripStorageContract(IvanSusaninProject_DbContext);
         _guarantor = InsertGuarantorToDatabaseAndReturn();
-        _group = InsertGroupToDatabaseAndReturn(_guarantor.Id);
+        _executor = InsertExecutorToDatabaseAndReturn();
+        _group = InsertGroupToDatabaseAndReturn(_executor.Id);
         _place = InsertPlaceToDatabaseAndReturn(_guarantor.Id, _group.Id);
         _guide = InsertGuideToDatabaseAndReturn(_guarantor.Id);
     }
@@ -32,6 +34,7 @@ internal class TripStorageContractTests : BaseStorageContractTest
     {
         IvanSusaninProject_DbContext.Database.ExecuteSqlRaw("TRUNCATE \"Trips\" CASCADE; ");
         IvanSusaninProject_DbContext.Database.ExecuteSqlRaw("TRUNCATE \"Guarantors\" CASCADE; ");
+        IvanSusaninProject_DbContext.Database.ExecuteSqlRaw("TRUNCATE \"Executors\" CASCADE; ");
         IvanSusaninProject_DbContext.Database.ExecuteSqlRaw("TRUNCATE \"Places\" CASCADE; ");
         IvanSusaninProject_DbContext.Database.ExecuteSqlRaw("TRUNCATE \"Guides\" CASCADE; ");
         IvanSusaninProject_DbContext.Database.ExecuteSqlRaw("TRUNCATE \"Groups\" CASCADE; ");
@@ -150,6 +153,19 @@ internal class TripStorageContractTests : BaseStorageContractTest
 
         _tripStorageContract.UpdElement(updatedTrip);
         AssertElement(GetTripFromDatabase(trip.Id), updatedTrip);
+    }
+
+    private Executor InsertExecutorToDatabaseAndReturn(string login = "test", string password = "1111111", string email = "example@example.com")
+    {
+        var executor = new Executor()
+        {
+            Login = login,
+            Password = password,
+            Email = email
+        };
+        IvanSusaninProject_DbContext.Executors.Add(executor);
+        IvanSusaninProject_DbContext.SaveChanges();
+        return executor;
     }
 
     private Guarantor InsertGuarantorToDatabaseAndReturn(string login = "test", string password = "11111111", string email = "example@example.com")

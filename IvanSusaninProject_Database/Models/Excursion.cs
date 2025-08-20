@@ -13,11 +13,11 @@ public class Excursion
 
     public required string ExecutorId { get; set; }
 
+    public string? GuideId { get; set; } = null;
+
     public Executor? Executor { get; set; }
 
-    public string? GuideId { get; set; }
-
-    public Guide? Guide { get; set; }
+    public Guide? Guide { get; set; } = null;
 
     [ForeignKey("ExcursionId")]
     public List<TourExcursion>? TourExcursions { get; set; }

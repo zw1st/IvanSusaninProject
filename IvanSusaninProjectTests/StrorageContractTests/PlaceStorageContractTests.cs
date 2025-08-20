@@ -12,13 +12,15 @@ internal class PlaceStorageContractTests : BaseStorageContractTest
     private PlaceStorageContract _placeStorageContract;
     private Guarantor _guarantor;
     private Group _group;
+    private Executor _executor;
 
     [SetUp]
     public void SetUp()
     {
         _placeStorageContract = new PlaceStorageContract(IvanSusaninProject_DbContext);
         _guarantor = InsertGuarantorToDatabaseAndReturn();
-        _group = InsertGroupToDatabaseAndReturn(_guarantor.Id);
+        _executor = InsertExecutorToDatabaseAndReturn();
+        _group = InsertGroupToDatabaseAndReturn(_executor.Id);
     }
 
     [TearDown]
@@ -26,6 +28,7 @@ internal class PlaceStorageContractTests : BaseStorageContractTest
     {
         IvanSusaninProject_DbContext.Database.ExecuteSqlRaw("TRUNCATE \"Places\" CASCADE; ");
         IvanSusaninProject_DbContext.Database.ExecuteSqlRaw("TRUNCATE \"Guarantors\" CASCADE; ");
+        IvanSusaninProject_DbContext.Database.ExecuteSqlRaw("TRUNCATE \"Executors\" CASCADE; ");
         IvanSusaninProject_DbContext.Database.ExecuteSqlRaw("TRUNCATE \"Groups\" CASCADE; ");
     }
 
@@ -80,6 +83,19 @@ internal class PlaceStorageContractTests : BaseStorageContractTest
         _placeStorageContract.DelElement(_guarantor.Id, place.Id);
         var element = GetPlaceFromDatabase(place.Id);
         Assert.That(element, Is.Null);
+    }
+
+    private Executor InsertExecutorToDatabaseAndReturn(string login = "test1", string password = "1111111", string email = "example@example.com")
+    {
+        var executor = new Executor()
+        {
+            Login = login,
+            Password = password,
+            Email = email
+        };
+        IvanSusaninProject_DbContext.Executors.Add(executor);
+        IvanSusaninProject_DbContext.SaveChanges();
+        return executor;
     }
 
     private Place InsertPlaceToDatabaseAndReturn(string guarantorId, string name, string groupId, string address = "test1", string city = "test2")

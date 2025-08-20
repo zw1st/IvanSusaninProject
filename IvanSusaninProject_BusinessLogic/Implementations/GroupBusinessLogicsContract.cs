@@ -59,21 +59,35 @@ public class GroupBusinessLogicsContract(IGroupStorageContract groupStorageContr
 
     public void LinkingGroupWithPlace(string creatorId, string groupId, string placeId)
     {
-        _logger.LogInformation("GetAllPosts params");
-        if (groupId.IsEmpty())
-        {
+        if (string.IsNullOrEmpty(creatorId))
+            throw new ArgumentNullException(nameof(creatorId));
+
+        if (string.IsNullOrEmpty(groupId))
             throw new ArgumentNullException(nameof(groupId));
-        }
-        if (placeId.IsEmpty())
-        {
+
+        if (string.IsNullOrEmpty(placeId))
             throw new ArgumentNullException(nameof(placeId));
-        }
-        if (creatorId.IsEmpty())
+
+        // Получаем место для посещения
+        var place = _placeStorageContract.GetElementById(creatorId, placeId);
+        if (place == null)
+            throw new ElementNotFoundException(placeId);
+
+        // Проверяем существование группы
+        var group = _groupStorageContract.GetElementById(creatorId, groupId);
+        if (group == null)
         {
-            throw new ArgumentNullException(nameof(placeId));
+            // Если группа не существует, устанавливаем groupId в null
+            place.GroupId = null;
         }
-        var place = _placeStorageContract.GetElementById(creatorId, placeId) ?? throw new ElementNotFoundException(placeId);
-        place.GroupId = groupId;
+        else
+        {
+            // Если группа существует, устанавливаем связь
+            place.GroupId = groupId;
+        }
+
+        // Обновляем место для посещения
+        _placeStorageContract.UpdElement(place);
     }
 
     public void UpdateGroup(GroupDataModel groupDataModel)

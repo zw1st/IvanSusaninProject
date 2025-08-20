@@ -12,6 +12,8 @@ public interface IExcursionStorageContract
 
     void AddElement(ExcursionDataModel element);
 
+    void UpdElement(ExcursionDataModel element);
+
     Task<List<ExcursionDataModel>> GetExcursionsByTourIds(string executorId, List<string> tripIds, CancellationToken ct);
 
     Task<List<object>> GetTripsWithDetailsByPeriod(DateTime startDate, DateTime endDate, string guaranderId, CancellationToken ct);

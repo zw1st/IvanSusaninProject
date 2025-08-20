@@ -46,6 +46,27 @@ public class ExcursionStorageContract : IExcursionStorageContract
         }
     }
 
+    public void UpdElement(ExcursionDataModel excursionDataModel)
+    {
+        try
+        {
+            var element = GetExcursionById(excursionDataModel.Id, excursionDataModel.ExecutorId) ?? throw new
+            ElementNotFoundException(excursionDataModel.Id);
+            _dbContext.Excursions.Update(_mapper.Map(excursionDataModel, element));
+            _dbContext.SaveChanges();
+        }
+        catch (ElementNotFoundException)
+        {
+            _dbContext.ChangeTracker.Clear();
+            throw;
+        }
+        catch (Exception ex)
+        {
+            _dbContext.ChangeTracker.Clear();
+            throw new StorageException(ex);
+        }
+    }
+
     public ExcursionDataModel? GetElementById(string creatorId, string id)
     {
         try
