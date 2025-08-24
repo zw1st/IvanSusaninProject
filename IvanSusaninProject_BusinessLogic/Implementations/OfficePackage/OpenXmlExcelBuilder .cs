@@ -77,24 +77,17 @@ public class OpenXmlExcelBuilder : BaseExcelBuilder
         {
             CreateCell(j, _rowIndex, data.First()[j], StyleIndex.BoldTextWithBorder);
         }
-
         _rowIndex++;
-        for (var i = 1; i < data.Count - 1; ++i)
+
+        for (var i = 1; i < data.Count; ++i)
         {
             for (var j = 0; j < data[i].Length; ++j)
             {
                 CreateCell(j, _rowIndex, data[i][j], StyleIndex.SimpleTextWithBorder);
             }
-
             _rowIndex++;
         }
 
-        for (var j = 0; j < data.Last().Length; ++j)
-        {
-            CreateCell(j, _rowIndex, data.Last()[j], StyleIndex.BoldTextWithBorder);
-        }
-
-        _rowIndex++;
         return this;
     }
 

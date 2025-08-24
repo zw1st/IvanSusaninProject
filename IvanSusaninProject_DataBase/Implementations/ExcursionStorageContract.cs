@@ -4,6 +4,7 @@ using IvanSusaninProject_Contracts.Exceptions;
 using IvanSusaninProject_Contracts.StorageContracts;
 using IvanSusaninProject_Database;
 using IvanSusaninProject_Database.Models;
+using IvanSusaninProject_DataBase.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace IvanSusaninProject_DataBase.Implementations;
@@ -23,6 +24,50 @@ public class ExcursionStorageContract : IExcursionStorageContract
 
             cfg.CreateMap<TourExcursion, TourExcursionDataModel>();
             cfg.CreateMap<TourExcursionDataModel, TourExcursion>();
+
+            // Конфигурация маппинга для TripGuide
+            cfg.CreateMap<TripGuide, TripGuideDataModel>()
+                .ConstructUsing(src => new TripGuideDataModel(src.TripId, src.GuideId));
+
+            cfg.CreateMap<TripGuideDataModel, TripGuide>()
+                .ForMember(dest => dest.TripId, opt => opt.MapFrom(src => src.TripId))
+                .ForMember(dest => dest.GuideId, opt => opt.MapFrom(src => src.GuideId))
+                .ForMember(dest => dest.Trip, opt => opt.Ignore())
+                .ForMember(dest => dest.Guide, opt => opt.Ignore());
+
+            // Конфигурация маппинга для TripPlace
+            cfg.CreateMap<TripPlace, TripPlaceDataModel>()
+                .ConstructUsing(src => new TripPlaceDataModel(src.PlaceId, src.TripId));
+
+            cfg.CreateMap<TripPlaceDataModel, TripPlace>()
+                .ForMember(dest => dest.TripId, opt => opt.MapFrom(src => src.TripId))
+                .ForMember(dest => dest.PlaceId, opt => opt.MapFrom(src => src.PlaceId))
+                .ForMember(dest => dest.Trip, opt => opt.Ignore())
+                .ForMember(dest => dest.Place, opt => opt.Ignore());
+
+            // Конфигурация маппинга для Trip
+            cfg.CreateMap<Trip, TripDataModel>()
+                .ForMember(dest => dest.TripPlaces, opt => opt.MapFrom(src => src.TripPlaces))
+                .ForMember(dest => dest.TripGuides, opt => opt.MapFrom(src => src.TripGuides));
+
+            cfg.CreateMap<TripDataModel, Trip>()
+                .ForMember(dest => dest.TripPlaces, opt => opt.Ignore())
+                .ForMember(dest => dest.TripGuides, opt => opt.Ignore())
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id ?? Guid.NewGuid().ToString()))
+                .ForMember(dest => dest.GuarandorId, opt => opt.MapFrom(src => src.GuarandorId))
+                .ForMember(dest => dest.StartCity, opt => opt.MapFrom(src => src.StartCity))
+                .ForMember(dest => dest.EndCity, opt => opt.MapFrom(src => src.EndCity))
+                .ForMember(dest => dest.TripDate, opt => opt.MapFrom(src => src.TripDate))
+                .ForMember(dest => dest.Duration, opt => opt.MapFrom(src => src.Duration));
+
+            cfg.CreateMap<Place, PlaceDataModel>();
+            cfg.CreateMap<PlaceDataModel, Place>();
+
+            cfg.CreateMap<Group, GroupDataModel>();
+            cfg.CreateMap<GroupDataModel, Group>();
+
+            cfg.CreateMap<Guide, GuideDataModel>();
+            cfg.CreateMap<GuideDataModel, Guide>();
         });
         _mapper = new Mapper(config);
     }
@@ -123,22 +168,45 @@ public class ExcursionStorageContract : IExcursionStorageContract
         }
     }
 
-    public async Task<List<ExcursionDataModel>> GetExcursionsByTourIds(string executorId, List<string> tripIds, CancellationToken ct)
+    public async Task<List<TripExcursionDto>> GetExcursionsByTourIds(List<string> tripIds, CancellationToken ct)
     {
         try
         {
-            var guideIds = await _dbContext.TripGuides
+            // Получаем гидов и их поездки
+            var guideTrips = await _dbContext.TripGuides
                 .Where(tg => tripIds.Contains(tg.TripId))
-                .Select(tg => tg.GuideId)
-                .Distinct()
+                .Include(tg => tg.Trip)
+                .Select(tg => new
+                {
+                    tg.GuideId,
+                    TripId = tg.TripId,
+                    StartCity = tg.Trip.StartCity,
+                    EndCity = tg.Trip.EndCity
+                })
                 .ToListAsync(ct);
 
+            // Получаем экскурсии
             var excursions = await _dbContext.Excursions
-                .Where(e => e.ExecutorId == executorId && guideIds.Contains(e.GuideId))
-                .Select(e => _mapper.Map<ExcursionDataModel>(e))
+                .Where(e => guideTrips.Select(gt => gt.GuideId).Contains(e.GuideId))
                 .ToListAsync(ct);
 
-            return excursions;
+            // Группируем по поездкам
+            var result = guideTrips
+                .GroupBy(gt => new { gt.TripId, gt.StartCity, gt.EndCity })
+                .Select(g => new TripExcursionDto
+                {
+                    TripId = g.Key.TripId,
+                    TripName = $"{g.Key.StartCity} - {g.Key.EndCity}",
+                    Excursions = excursions
+                        .Where(e => g.Any(gt => gt.GuideId == e.GuideId))
+                        .Select(e => e.Name)
+                        .Distinct()
+                        .ToList()
+                })
+                .Where(x => x.Excursions.Any())
+                .ToList();
+
+            return result;
         }
         catch (Exception ex)
         {
@@ -147,7 +215,7 @@ public class ExcursionStorageContract : IExcursionStorageContract
         }
     }
 
-    public async Task<List<object>> GetTripsWithDetailsByPeriod(DateTime startDate, DateTime endDate, string guaranderId, CancellationToken ct)
+    public async Task<List<TripDetailsDto>> GetTripsWithDetailsByPeriod(DateTime startDate, DateTime endDate, CancellationToken ct)
     {
         try
         {
@@ -155,7 +223,6 @@ public class ExcursionStorageContract : IExcursionStorageContract
                 from trip in _dbContext.Trips
                 where trip.TripDate >= startDate
                       && trip.TripDate <= endDate
-                      && trip.GuarandorId == guaranderId
                 join tp in _dbContext.TripPlaces on trip.Id equals tp.TripId into tripPlaces
                 from tp in tripPlaces.DefaultIfEmpty()
                 join place in _dbContext.Places on tp.PlaceId equals place.Id into places
@@ -177,29 +244,29 @@ public class ExcursionStorageContract : IExcursionStorageContract
             var tripDetails = await query.ToListAsync(ct);
 
             if (tripDetails.Count == 0)
-                return new List<object>();
+                return new List<TripDetailsDto>();
 
             var groupedResults = tripDetails
                 .GroupBy(x => x.Trip.Id)
-                .Select(g => new
+                .Select(g => new TripDetailsDto
                 {
                     Trip = _mapper.Map<TripDataModel>(g.First().Trip),
                     Places = g.Where(x => x.Place != null)
-                             .Select(x => new
+                             .Select(x => new PlaceWithGroupDto
                              {
-                                 Place = _mapper.Map<PlaceDataModel>(x.Place),
+                                 Place = _mapper.Map<PlaceDataModel>(x.Place!),
                                  Group = x.Group != null ? _mapper.Map<GroupDataModel>(x.Group) : null
                              })
                              .Distinct()
                              .ToList(),
                     Guides = g.Where(x => x.Guide != null)
-                             .Select(x => _mapper.Map<GuideDataModel>(x.Guide))
+                             .Select(x => _mapper.Map<GuideDataModel>(x.Guide!))
                              .Distinct()
                              .ToList()
                 })
                 .ToList();
 
-            return groupedResults.Cast<object>().ToList();
+            return groupedResults;
         }
         catch (Exception ex)
         {
